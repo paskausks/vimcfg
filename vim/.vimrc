@@ -17,7 +17,7 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Tim Pope goodies
 Plugin 'tpope/vim-sensible'
@@ -33,15 +33,11 @@ Plugin 'scrooloose/syntastic'
 Plugin 'othree/html5.vim'
 Plugin 'groenewege/vim-less'
 Plugin 'digitaltoad/vim-jade'
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'elzr/vim-json'
-Plugin 'isRuslan/vim-es6.git'
 
 " Linting and hinting
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'heavenshell/vim-pydocstring'
-Plugin 'wookiehangover/jshint.vim' "Requires jshint for nodejs
 
 " Visual
 Plugin 'bling/vim-airline'
@@ -129,6 +125,17 @@ endif
 
 " Enable powerline symbols
 let g:airline_powerline_fonts = 1
+
+" Syntastic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
 
 " Rename tabs to show tab number and show loaded files in tooltips.
 " (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
