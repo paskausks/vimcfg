@@ -23,21 +23,16 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 
+" Syntax highlight
+Plugin 'posva/vim-vue'
+
 " Navigation
 Plugin 'kien/ctrlp.vim' "Ctrl+P File finder
 Plugin 'tacahiroy/ctrlp-funky' "Jump to function definitions
 Plugin 'scrooloose/nerdtree'
 
-" Syntax highlighting
-Plugin 'scrooloose/syntastic'
-Plugin 'othree/html5.vim'
-Plugin 'groenewege/vim-less'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'elzr/vim-json'
-
-" Linting and hinting
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'heavenshell/vim-pydocstring'
+" Syntax Check
+Plugin 'vim-syntastic/syntastic'
 
 " Visual
 Plugin 'bling/vim-airline'
@@ -46,7 +41,6 @@ Plugin 'summerfruit256.vim'
 
 " Utility
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'snipMate' "Conflicts with YouCompleteMe. Remap to something else.
 
 " VimWiki
 Plugin 'vimwiki'
@@ -60,14 +54,6 @@ set omnifunc=syntaxcomplete#Complete
 
 " Add LESS filetype which doesn't work for me for some reason.
 au BufRead,BufNewFile *.less		setfiletype less
-
-let g:snips_author = 'Pundurs'
-
-" Add subversion commit message files to semantic autocomplete ignore list.
-let g:ycm_filetype_specific_completion_to_disable = {
-            \ 'gitcommit': 1,
-            \ 'svn': 1
-            \}
 
 " Set keymaps
 " Quicksave
@@ -90,18 +76,6 @@ nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 
 " remove trailing spaces in the current buffer
 nmap <Leader>t :%s/\s\+$//<Cr>
-
-" Django translation template tags and variables for surround.vim
-autocmd FileType htmldjango let b:surround_45 = "{% trans '\r' %}" " yss-
-autocmd FileType htmldjango let b:surround_43 = "{% blocktrans %}\r{% endblocktrans %}" " yss+
-autocmd FileType htmldjango let b:surround_37 = "{% \r %}" " yss%
-autocmd FileType htmldjango let b:surround_123 = "{{ \r }}" " yss{
-autocmd FileType htmldjango let b:surround_112 = "<p>\r</p>" " yssp
-autocmd FileType htmldjango let b:surround_104 = "<h1>\r</h1>" " yssp
-autocmd FileType htmldjango let b:surround_97 = "<a href="">\r</a>" " yssa
-
-" Python custom surrounds
-autocmd FileType python let b:surround_40 = "(\r)" " yss(
 
 " Enable 256 color support and load colorscheme
 set t_Co=256
@@ -136,6 +110,10 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_javascript_eslint_args = "-c /mnt/Data1/mega/.dotfiles/.eslintrc"
+" Uncomment below for ES6
+let g:syntastic_javascript_eslint_args = "-c /mnt/Data1/mega/.dotfiles/.eslintrc --parser \"babel-eslint\""
+let g:syntastic_python_checkers = ['flake8']
 
 " Rename tabs to show tab number and show loaded files in tooltips.
 " (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
