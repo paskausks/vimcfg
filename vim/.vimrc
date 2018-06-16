@@ -99,6 +99,18 @@ nmap <C-b> :YcmCompleter GoTo<Cr>
 " remove trailing spaces in the current buffer
 nmap <Leader>t :%s/\s\+$//<Cr>
 
+" Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+nnoremap  <leader>yy  "+yy
+
+" Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
 " Enable 256 color support and load colorscheme
 set t_Co=256
 let g:rehash256 = 1
