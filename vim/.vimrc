@@ -1,5 +1,6 @@
-set nocompatible              " be iMproved, required
-set nu  		      " show those line numbers
+set nocompatible    " be iMproved, required
+set nu              " show those line numbers
+set cul             " highlight current line
 
 " Tab settings, 4 spaces
 set expandtab
@@ -8,6 +9,10 @@ set softtabstop=4
 
 syntax enable
 filetype off                  " required
+
+" Ale settings
+" If something seems to not be working, "ALEInfo" is your friend.
+let g:ale_completion_enabled = 1
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -27,14 +32,12 @@ Plugin 'tpope/vim-surround'
 
 " Git Wrapper, provides :Gcommit, :Gstatus, :Gdiff, :Gdiff, etc.
 " and status line for VIM airline
-Plugin 'tpope/vim-fugitive' 
+Plugin 'tpope/vim-fugitive'
 
-" Auto completion engine
-" For nvim it needs python support. See :checkhealth
-" For nvim on arch linux - install via pacman 'sudo pacman -S python-neovim'
-" For rust and javascript support, additional install steps are required
-" See full installation guide at https://github.com/Valloric/YouCompleteMe#full-installation-guide
-Plugin 'Valloric/YouCompleteMe'
+" Lint and auto completion engine
+" Zero configuration requirec, but
+" see README for language specifics
+Plugin 'w0rp/ale'
 
 " Syntax highlight
 Plugin 'posva/vim-vue'
@@ -45,13 +48,8 @@ Plugin 'kien/ctrlp.vim' "Ctrl+P File finder
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin' " Git status indicators for nerdtree
 
-" Syntax Check
-Plugin 'vim-syntastic/syntastic'
-Plugin 'rust-lang/rust.vim'
-
 " Visual
 Plugin 'bling/vim-airline'
-Plugin 'vim-gitgutter'
 
 " Utility
 Plugin 'terryma/vim-multiple-cursors' " Sublime text-like multiple cursors
@@ -63,9 +61,6 @@ Plugin 'vimwiki'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-" Enable omnicomplete (requires set plugin on)
-set omnifunc=syntaxcomplete#Complete
 
 " Add LESS filetype which doesn't work for me for some reason.
 au BufRead,BufNewFile *.less		setfiletype less
@@ -111,6 +106,9 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
+" Misc
+imap jj <ESC>
+
 " Enable 256 color support and load colorscheme
 set t_Co=256
 let g:rehash256 = 1
@@ -119,7 +117,7 @@ let g:rehash256 = 1
 set termguicolors
 
 " Remove toolbars and scrollbars.
-set guifont=Hack\ 12
+set guifont=Hasklig\ 12
 set guioptions-=m  "menu bar
 set guioptions-=T  "toolbar
 set guioptions-=r  "scrollbar
@@ -136,23 +134,6 @@ endif
 
 " Enable powerline symbols
 let g:airline_powerline_fonts = 1
-
-" Syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_rust_checkers = ['cargo']
-
-" YouCompleteMe settings
-let g:ycm_server_python_interpreter = '/usr/bin/python2'
-let g:ycm_goto_buffer_command = 'new-tab'
 
 " Rename tabs to show tab number and show loaded files in tooltips.
 " (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
@@ -220,3 +201,25 @@ function! GuiTabToolTip()
   return tip
 endfunction
 set guitabtooltip=%{GuiTabToolTip()}
+
+function! Smart_TabComplete()
+  let line = getline('.')                         " current line
+
+  let substr = strpart(line, -1, col('.')+1)      " from the start of the current
+                                                  " line to one character right
+                                                  " of the cursor
+  let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+  if (strlen(substr)==0)                          " nothing to match on empty string
+    return "\<tab>"
+  endif
+  let has_period = match(substr, '\.') != -1      " position of period, if any
+  let has_slash = match(substr, '\/') != -1       " position of slash, if any
+  if (!has_period && !has_slash)
+    return "\<C-X>\<C-P>"                         " existing text matching
+  elseif ( has_slash )
+    return "\<C-X>\<C-F>"                         " file matching
+  else
+    return "\<C-X>\<C-O>"                         " plugin matching
+  endif
+endfunction
+inoremap <tab> <c-r>=Smart_TabComplete()<CR>
