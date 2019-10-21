@@ -135,6 +135,14 @@ endif
 " Enable powerline symbols
 let g:airline_powerline_fonts = 1
 
+" Surround options (decimals equal to ASCII codes and '\r' is the text to be
+" surrounded)
+let g:surround_40 = "(\r)"
+let g:surround_91= "[\r]"
+
+" Vimwiki settings - path and set to markdown mode.
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+
 " Rename tabs to show tab number and show loaded files in tooltips.
 " (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
 set showtabline=2 " always show tabs in gvim, but not vim
