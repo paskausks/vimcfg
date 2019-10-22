@@ -1,5 +1,5 @@
 set nocompatible    " be iMproved, required
-set nu              " show those line numbers
+set rnu nu          " hybrid line number mode
 set cul             " highlight current line
 
 " Tab settings, 4 spaces
