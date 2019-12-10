@@ -7,92 +7,93 @@ set expandtab
 set shiftwidth=4
 set softtabstop=4
 
+" Undo history.
+" Directory has to exist.
+set undodir=~/.vim/undo-dir
+set undofile
+
+" Mode already shown in Lightline.
+set noshowmode
+
 syntax enable
 filetype off                  " required
 
-" Ale settings
-" If something seems to not be working, "ALEInfo" is your friend.
-let g:ale_completion_enabled = 1
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
 
 " When adding a plugin,
-" run ':source %' and ':PluginInstall'
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" run ':source %' and ':PlugInstall'
+" To update:
+" :PlugUpdate
+" And to remove unused:
+" :PlugClean
 
 " Tim Pope goodies
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 
-" Git Wrapper, provides :Gcommit, :Gstatus, :Gdiff, :Gdiff, etc.
-" and status line for VIM airline
-Plugin 'tpope/vim-fugitive'
-
-" Lint and auto completion engine
-" Zero configuration requirec, but
-" see README for language specifics
-Plugin 'w0rp/ale'
+" IntelliSense for vim
+" Install extensions for better performance with ":CocInstall"
+"
+" Extensions used:
+"     * coc-tsserver - js/ts
+"     * coc-vetur - vue
+"     * coc-python - remember to disable Jedi via Coc config.
+"     * coc-json
+"     * coc-rls - rust language server.
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Syntax highlight
-Plugin 'posva/vim-vue'
-Plugin 'pangloss/vim-javascript'
+Plug 'posva/vim-vue'
+Plug 'pangloss/vim-javascript'
+Plug 'jparise/vim-graphql'
 
 " Navigation
-Plugin 'kien/ctrlp.vim' "Ctrl+P File finder
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin' " Git status indicators for nerdtree
+Plug 'kien/ctrlp.vim' "Ctrl+P File finder. Consider replacing with fzf.
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin' " Git status indicators for nerdtree
+Plug 'airblade/vim-rooter' " Automatically cwd to workdir root.
+Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
-Plugin 'bling/vim-airline'
+Plug 'itchyny/lightline.vim'
+Plug 'kjssad/quantum.vim'
 
 " Utility
-Plugin 'terryma/vim-multiple-cursors' " Sublime text-like multiple cursors
-Plugin 'scrooloose/nerdcommenter' " Toggle comments
+Plug 'terryma/vim-multiple-cursors' " Sublime text-like multiple cursors
+Plug 'scrooloose/nerdcommenter' " Toggle comments
+Plug 'editorconfig/editorconfig-vim'
 
 " VimWiki
-Plugin 'vimwiki'
+Plug 'vimwiki/vimwiki'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()              " required
 filetype plugin indent on    " required
 
 " Add LESS filetype which doesn't work for me for some reason.
 au BufRead,BufNewFile *.less		setfiletype less
 
-" Commands
-command -nargs=1 Rf YcmCompleter RefactorRename <args> " :Rf new_variable_name (js and ts only)
-
 " Set keymaps
-" Quicksave
-nmap <F2> :w<Cr>
-imap <F2> <Esc>:w<Cr>
-
 " Toogle NERD tree
 nmap <F3> :NERDTreeToggle<Cr>
-
-" Go to symbol doc
-nmap <F4> :YcmCompleter GetDoc<Cr>
-
-" Show symbol type
-nmap <F5> :YcmCompleter GetType<Cr>
-imap <F5> <Esc>:YcmCompleter GetType<Cr>
 
 " shift+tab for inverse tabbing
 nmap <S-Tab> <<
 imap <S-Tab> <Esc><<i
 
-" Go go definition
-nmap <C-b> :YcmCompleter GoTo<Cr>
-
 " <Leader> - backslash by default
 " remove trailing spaces in the current buffer
 nmap <Leader>t :%s/\s\+$//<Cr>
+
+" Rust stuff
+nmap <Leader>b :!cargo build<Cr>
+nmap <Leader>bb :!cargo test<Cr>
+nmap <Leader>br :!cargo run<Cr>
+
+" Search word under cursor with ripgrep
+nmap <Leader>f :Rg<Cr>
 
 " Copy to clipboard
 vnoremap  <leader>y  "+y
@@ -108,6 +109,9 @@ vnoremap <leader>P "+P
 
 " Misc
 imap jj <ESC>
+imap <C-/> <ESC><plug>NERDCommenterToggle
+vmap <C-/> <plug>NERDCommenterToggle
+nmap <C-/> <plug>NERDCommenterToggle
 
 " Enable 256 color support and load colorscheme
 set t_Co=256
@@ -117,23 +121,40 @@ let g:rehash256 = 1
 set termguicolors
 
 " Remove toolbars and scrollbars.
-set guifont=Hasklig\ 12
-set guioptions-=m  "menu bar
-set guioptions-=T  "toolbar
-set guioptions-=r  "scrollbar
+set guifont=Hasklig:h18  " unused in nvim-qt, use ginit.vim (see below)
+set guioptions-=m        " menu bar
+set guioptions-=T        " toolbar
+set guioptions-=r        " scrollbar
+
+""" NVIM-QT NOTES """
+" To remove the QT toolbar on windows for nvim-qt, go to the registry:
+" Computer\HKEY_CURRENT_USER\Software\nvim-qt\nvim-qt
+" and set "ext_tabline" to "false"
+"
+" source: https://github.com/equalsraf/neovim-qt/issues/589
+"
+" Cample ginit.vim
+" if exists('g:GuiLoaded')
+"    GuiFont! hasklig:h12
+"    GuiLinespace 4
+" endif
+
+" Set Lightline colorscheme.
+" Call before setting editor scheme.
+let g:lightline = {
+      \ 'colorscheme': 'Tomorrow_Night_Blue',
+      \ }
 
 " Set theme and background depending of time of day
+" Hackerman colors from https://vimcolors.com/950/hackerman/dark
 let hour = strftime("%H")
 if 6 <= hour && hour < 14
-    colorscheme material-theme
+    colorscheme hackerman
     set background=dark
 else
-    colorscheme material-theme
+    colorscheme hackerman
     set background=dark
 endif
-
-" Enable powerline symbols
-let g:airline_powerline_fonts = 1
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
 " surrounded)
@@ -142,6 +163,144 @@ let g:surround_91= "[\r]"
 
 " Vimwiki settings - path and set to markdown mode.
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+
+" CtrlP
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](.nuxt|.vscode|node_modules|target)',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
+
+" ===== BEGIN COC.VIM CONFIG =====
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <F2> <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+" Commented out, because I am too used to paging down.
+" nmap <silent> <C-d> <Plug>(coc-range-select)
+" xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" ===== END COC.VIM CONFIG =====
 
 " Rename tabs to show tab number and show loaded files in tooltips.
 " (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
@@ -209,25 +368,3 @@ function! GuiTabToolTip()
   return tip
 endfunction
 set guitabtooltip=%{GuiTabToolTip()}
-
-function! Smart_TabComplete()
-  let line = getline('.')                         " current line
-
-  let substr = strpart(line, -1, col('.')+1)      " from the start of the current
-                                                  " line to one character right
-                                                  " of the cursor
-  let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
-  if (strlen(substr)==0)                          " nothing to match on empty string
-    return "\<tab>"
-  endif
-  let has_period = match(substr, '\.') != -1      " position of period, if any
-  let has_slash = match(substr, '\/') != -1       " position of slash, if any
-  if (!has_period && !has_slash)
-    return "\<C-X>\<C-P>"                         " existing text matching
-  elseif ( has_slash )
-    return "\<C-X>\<C-F>"                         " file matching
-  else
-    return "\<C-X>\<C-O>"                         " plugin matching
-  endif
-endfunction
-inoremap <tab> <c-r>=Smart_TabComplete()<CR>
