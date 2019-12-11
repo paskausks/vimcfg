@@ -53,7 +53,6 @@ Plug 'jparise/vim-graphql'
 Plug 'kien/ctrlp.vim' "Ctrl+P File finder. Consider replacing with fzf.
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin' " Git status indicators for nerdtree
-Plug 'airblade/vim-rooter' " Automatically cwd to workdir root.
 Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
