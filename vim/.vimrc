@@ -1,23 +1,27 @@
 set nocompatible    " be iMproved, required
-set rnu nu          " hybrid line number mode
-set cul             " highlight current line
 
 " Tab settings, 4 spaces
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 
-" Undo history.
-" Directory has to exist.
+" Undo, cache and backup directories.
+" Directories have to exist.
 set undodir=~/.vim/undo-dir
 set undofile
+set backupdir=~/.vim/backups
+set dir=~/.vim/swap
 
-" Mode already shown in Lightline.
-set noshowmode
+set noshowmode " mode already shown in Lightline.
+set ignorecase " ignore case in searches.
+set nohlsearch " don't highlight search results.
+set rnu nu     " hybrid line number mode
+set cul        " highlight current line
 
 syntax enable
 filetype off                  " required
 
+" PLUGINS =======================================================
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 
@@ -74,13 +78,18 @@ filetype plugin indent on    " required
 " Add LESS filetype which doesn't work for me for some reason.
 au BufRead,BufNewFile *.less		setfiletype less
 
-" Set keymaps
+" KEYMAPS =======================================================
 " Toogle NERD tree
-nmap <F3> :NERDTreeToggle<Cr>
+" <silent> is a map modifier, which won't show the actual input.
+nmap <silent><F3> :NERDTreeToggle<Cr>
 
 " shift+tab for inverse tabbing
 nmap <S-Tab> <<
 imap <S-Tab> <Esc><<i
+
+" Go to alternate (previous) file with CTRL+Backspace
+" useful with peeking a file with "gf" and then going back.
+nmap <C-BS> <C-^>
 
 " <Leader> - backslash by default
 " remove trailing spaces in the current buffer
@@ -89,7 +98,10 @@ nmap <Leader>t :%s/\s\+$//<Cr>
 " Rust stuff
 nmap <Leader>b :!cargo build<Cr>
 nmap <Leader>bb :!cargo test<Cr>
+nmap <Leader>bt :!cargo test <C-R><C-W><Cr> " Runs test under cursor
 nmap <Leader>br :!cargo run<Cr>
+nmap <Leader>bc :!cargo clippy<Cr>
+nmap <Leader>bf :!cargo fmt<Cr>
 
 " Search word under cursor with ripgrep
 nmap <Leader>f :Rg<Cr>
@@ -111,7 +123,9 @@ imap jj <ESC>
 imap <C-/> <ESC><plug>NERDCommenterToggle
 vmap <C-/> <plug>NERDCommenterToggle
 nmap <C-/> <plug>NERDCommenterToggle
+tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
 
+" CONFIG =======================================================
 " Enable 256 color support and load colorscheme
 set t_Co=256
 let g:rehash256 = 1
@@ -141,17 +155,16 @@ set guioptions-=r        " scrollbar
 " Set Lightline colorscheme.
 " Call before setting editor scheme.
 let g:lightline = {
-      \ 'colorscheme': 'Tomorrow_Night_Blue',
+      \ 'colorscheme': 'darcula',
       \ }
 
 " Set theme and background depending of time of day
-" Hackerman colors from https://vimcolors.com/950/hackerman/dark
 let hour = strftime("%H")
 if 6 <= hour && hour < 14
-    colorscheme hackerman
+    colorscheme gruvbox
     set background=dark
 else
-    colorscheme hackerman
+    colorscheme gruvbox
     set background=dark
 endif
 
@@ -169,7 +182,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
 
-" ===== BEGIN COC.VIM CONFIG =====
+" BEGIN COC.VIM CONFIG =======================================================
 " if hidden is not set, TextEdit might fail.
 set hidden
 
