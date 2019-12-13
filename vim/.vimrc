@@ -52,6 +52,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'posva/vim-vue'
 Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
+Plug 'cespare/vim-toml'
 
 " Navigation
 Plug 'kien/ctrlp.vim' "Ctrl+P File finder. Consider replacing with fzf.
@@ -125,6 +126,9 @@ vmap <C-/> <plug>NERDCommenterToggle
 nmap <C-/> <plug>NERDCommenterToggle
 tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
 
+" Search for selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 " CONFIG =======================================================
 " Enable 256 color support and load colorscheme
 set t_Co=256
@@ -177,6 +181,8 @@ let g:surround_91= "[\r]"
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " CtrlP
+" Based Tim Pope.
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](.nuxt|.vscode|node_modules|target)',
   \ 'file': '\v\.(exe|so|dll)$',
