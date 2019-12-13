@@ -188,6 +188,9 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
 
+" Remove trailing spaces before save
+autocmd BufWritePre * %s/\s\+$//e
+
 " BEGIN COC.VIM CONFIG =======================================================
 " if hidden is not set, TextEdit might fail.
 set hidden
