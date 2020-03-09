@@ -12,11 +12,14 @@ set undofile
 set backupdir=~/.vim/backups
 set dir=~/.vim/swap
 
-set noshowmode " mode already shown in Lightline.
-set ignorecase " ignore case in searches.
-set nohlsearch " don't highlight search results.
-set rnu nu     " hybrid line number mode
-set cul        " highlight current line
+set noshowmode    " mode already shown in Lightline.
+set ignorecase    " ignore case in searches.
+set nohlsearch    " don't highlight search results.
+set rnu nu        " hybrid line number mode
+set cul           " highlight current line
+set nojoinspaces  " Prevents inserting two spaces after punctuation on a join (J)
+set splitbelow    " Horizontal split below current.
+set splitright    " Vertical split to right of current.
 
 syntax enable
 filetype off                  " required
@@ -42,6 +45,7 @@ Plug 'tpope/vim-fugitive'
 "
 " Extensions used:
 "     * coc-tsserver - js/ts
+"     * coc-eslint
 "     * coc-vetur - vue
 "     * coc-python - remember to disable Jedi via Coc config.
 "     * coc-json
@@ -108,10 +112,10 @@ nmap <Leader>bf :!cargo fmt<Cr>
 nmap <Leader>f :Rg<Cr>
 
 " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy
+vnoremap <leader>y  "+y
+nnoremap <leader>Y  "+yg_
+nnoremap <leader>y  "+y
+nnoremap <leader>yy  "+yy
 
 " Paste from clipboard
 nnoremap <leader>p "+p
@@ -184,7 +188,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}
 " Based Tim Pope.
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](.nuxt|.vscode|node_modules|target)',
+  \ 'dir':  '\v[\/](.yarn|.nuxt|.vscode|node_modules|target)',
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
 
