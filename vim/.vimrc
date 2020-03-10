@@ -21,6 +21,8 @@ set nojoinspaces  " Prevents inserting two spaces after punctuation on a join (J
 set splitbelow    " Horizontal split below current.
 set splitright    " Vertical split to right of current.
 
+set fileformats=unix,dos  " Windows bad.
+
 syntax enable
 filetype off                  " required
 
