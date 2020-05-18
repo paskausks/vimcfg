@@ -47,7 +47,7 @@ Plug 'tpope/vim-fugitive'
 "
 " Extensions used:
 "     * coc-tsserver - js/ts
-"     * coc-deno
+"     * coc-deno - run CocCommand "deno.cache" to download dependencies.
 "     * coc-eslint
 "     * coc-vetur - vue
 "     * coc-python - remember to disable Jedi via Coc config.
