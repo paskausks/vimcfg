@@ -47,10 +47,12 @@ Plug 'tpope/vim-fugitive'
 "
 " Extensions used:
 "     * coc-tsserver - js/ts
+"     * coc-deno
 "     * coc-eslint
 "     * coc-vetur - vue
 "     * coc-python - remember to disable Jedi via Coc config.
 "     * coc-json
+"     * coc-css - also supports less and scss
 "     * coc-rls - rust language server.
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -158,7 +160,7 @@ set guioptions-=r        " scrollbar
 "
 " source: https://github.com/equalsraf/neovim-qt/issues/589
 "
-" Cample ginit.vim
+" Sample ginit.vim
 " if exists('g:GuiLoaded')
 "    GuiFont! hasklig:h12
 "    GuiLinespace 4
