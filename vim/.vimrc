@@ -1,6 +1,6 @@
-set nocompatible    " be iMproved, required
+set nocompatible    " no need to cosplay vi
 
-" Tab settings, 4 spaces
+" Tab settings, 4 spaces by default
 set expandtab
 set shiftwidth=4
 set softtabstop=4
@@ -12,6 +12,7 @@ set undofile
 set backupdir=~/.vim/backups
 set dir=~/.vim/swap
 
+set showtabline=2 " always show tabs in gvim, but not vim
 set noshowmode    " mode already shown in Lightline.
 set ignorecase    " ignore case in searches.
 set nohlsearch    " don't highlight search results.
@@ -20,11 +21,15 @@ set cul           " highlight current line
 set nojoinspaces  " Prevents inserting two spaces after punctuation on a join (J)
 set splitbelow    " Horizontal split below current.
 set splitright    " Vertical split to right of current.
+set path=**       " Recursive search downwards with commands like "find"
 
 set fileformats=unix,dos  " Windows bad.
 
 syntax enable
 filetype off                  " required
+
+" These patterns don't deserve our love.
+set wildignore+=**/node_modules/**,*/dist/*
 
 " PLUGINS =======================================================
 " Plugins will be downloaded under the specified directory.
@@ -53,7 +58,7 @@ Plug 'tpope/vim-fugitive'
 "     * coc-python - remember to disable Jedi via Coc config.
 "     * coc-json
 "     * coc-css - also supports less and scss
-"     * coc-rls - rust language server.
+"     * coc-rust-analyzer - rust analyzer, an alternative to rls.
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Syntax highlight
@@ -65,17 +70,14 @@ Plug 'jparise/vim-graphql'
 Plug 'cespare/vim-toml'
 
 " Navigation
-Plug 'kien/ctrlp.vim' "Ctrl+P File finder. Consider replacing with fzf.
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin' " Git status indicators for nerdtree
 Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
 Plug 'itchyny/lightline.vim'
-Plug 'kjssad/quantum.vim'
+Plug 'fielding/vice'
+Plug 'ap/vim-buftabline' " Show buffers where the tabline is
 
 " Utility
-Plug 'terryma/vim-multiple-cursors' " Sublime text-like multiple cursors
 Plug 'scrooloose/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
 
@@ -86,13 +88,9 @@ Plug 'vimwiki/vimwiki'
 call plug#end()              " required
 filetype plugin indent on    " required
 
-" Add LESS filetype which doesn't work for me for some reason.
-au BufRead,BufNewFile *.less		setfiletype less
-
 " KEYMAPS =======================================================
-" Toogle NERD tree
 " <silent> is a map modifier, which won't show the actual input.
-nmap <silent><F3> :NERDTreeToggle<Cr>
+nmap <silent><F3> :Vexplore<Cr>
 
 " shift+tab for inverse tabbing
 nmap <S-Tab> <<
@@ -139,7 +137,16 @@ tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
 " Search for selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+" Print a numbered list of buffers. Type respective number to go to filename
+nnoremap <F5> :buffers<CR>:buffer<Space>
+
 " CONFIG =======================================================
+" netrw
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+let g:netrw_browse_split = 4
+
 " Enable 256 color support and load colorscheme
 set t_Co=256
 let g:rehash256 = 1
@@ -172,15 +179,8 @@ let g:lightline = {
       \ 'colorscheme': 'darcula',
       \ }
 
-" Set theme and background depending of time of day
-let hour = strftime("%H")
-if 6 <= hour && hour < 14
-    colorscheme gruvbox
-    set background=dark
-else
-    colorscheme gruvbox
-    set background=dark
-endif
+colorscheme vice
+set background=dark
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
 " surrounded)
@@ -188,18 +188,16 @@ let g:surround_40 = "(\r)"
 let g:surround_91= "[\r]"
 
 " Vimwiki settings - path and set to markdown mode.
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
-
-" CtrlP
-" Based Tim Pope.
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](.yarn|.nuxt|.vscode|node_modules|target)',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
 
 " Remove trailing spaces before save
 autocmd BufWritePre * %s/\s\+$//e
+
+" Only show buffer tabline if there is more than 1 buffer opened
+let g:buftabline_show = 1
+
+" Close all buffers except the current one
+command! BufOnly execute '%bdelete|edit #|normal `"'
 
 " BEGIN COC.VIM CONFIG =======================================================
 " if hidden is not set, TextEdit might fail.
@@ -332,70 +330,3 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ===== END COC.VIM CONFIG =====
-
-" Rename tabs to show tab number and show loaded files in tooltips.
-" (Based on http://stackoverflow.com/questions/5927952/whats-implementation-of-vims-default-tabline-function)
-set showtabline=2 " always show tabs in gvim, but not vim
-" set up tab labels with tab number, buffer name, number of windows
-function! GuiTabLabel()
-    let label = ''
-    let bufnrlist = tabpagebuflist(v:lnum)
-    " Add '+' if one of the buffers in the tab page is modified
-    for bufnr in bufnrlist
-        if getbufvar(bufnr, "&modified")
-            let label = '+'
-            break
-        endif
-    endfor
-    " Append the tab number
-    let label .= v:lnum.': '
-    " Append the buffer name
-    let name = bufname(bufnrlist[tabpagewinnr(v:lnum) - 1])
-    if name == ''
-        " give a name to no-name documents
-        if &buftype=='quickfix'
-            let name = '[Quickfix List]'
-        else
-            let name = '[No Name]'
-        endif
-    else
-        " get only the file name
-        let name = fnamemodify(name,":t")
-    endif
-    let label .= name
-    " Append the number of windows in the tab page
-    let wincount = tabpagewinnr(v:lnum, '$')
-    return label . '  [' . wincount . ']'
-endfunction
-set guitablabel=%{GuiTabLabel()}
-" set up tab tooltips with every buffer name
-function! GuiTabToolTip()
-  let tip = ''
-  let bufnrlist = tabpagebuflist(v:lnum)
-  for bufnr in bufnrlist
-    " separate buffer entries
-    if tip!=''
-      let tip .= " \n "
-    endif
-    " Add name of buffer
-    let name=bufname(bufnr)
-    if name == ''
-      " give a name to no name documents
-      if getbufvar(bufnr,'&buftype')=='quickfix'
-        let name = '[Quickfix List]'
-      else
-        let name = '[No Name]'
-      endif
-    endif
-    let tip.=name
-    " add modified/modifiable flags
-    if getbufvar(bufnr, "&modified")
-      let tip .= ' [+]'
-    endif
-    if getbufvar(bufnr, "&modifiable")==0
-      let tip .= ' [-]'
-    endif
-  endfor
-  return tip
-endfunction
-set guitabtooltip=%{GuiTabToolTip()}
