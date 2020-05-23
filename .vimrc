@@ -21,15 +21,16 @@ set cul           " highlight current line
 set nojoinspaces  " Prevents inserting two spaces after punctuation on a join (J)
 set splitbelow    " Horizontal split below current.
 set splitright    " Vertical split to right of current.
-set path=**       " Recursive search downwards with commands like "find"
 
 set fileformats=unix,dos  " Windows bad.
 
 syntax enable
 filetype off                  " required
 
-" These patterns don't deserve our love.
-set wildignore+=**/node_modules/**,*/dist/*
+" These patterns don't deserve our love and shouldn't be shown in menus.
+" Set search paths in ./after/ftplugin/somefiletypename.vim.
+" More in :h ftplugin
+set wildignore+=**/node_modules/**,*/dist/*,*/target/*,*/build/*
 
 " PLUGINS =======================================================
 " Plugins will be downloaded under the specified directory.
@@ -134,11 +135,18 @@ vmap <C-/> <plug>NERDCommenterToggle
 nmap <C-/> <plug>NERDCommenterToggle
 tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
 
+" Buffer stuff
 " Search for selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Print a numbered list of buffers. Type respective number to go to filename
 nnoremap <F5> :buffers<CR>:buffer<Space>
+
+" Close buffer on double Backspace
+nnoremap <BS><BS> :bd<CR>
+
+" Save and close buffer
+command WQ execute "w|bd"
 
 " CONFIG =======================================================
 " netrw

@@ -1,1 +1,14 @@
+# Vim swap files
 *.swp
+
+# netrw history
+.netrwhist
+
+# plugged runtime, externally installed plugins
+autoload/
+
+# neovim config (symlink if necessary)
+init.vim
+
+# externally installed color themes
+colors/

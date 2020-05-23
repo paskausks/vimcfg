@@ -1,0 +1,4 @@
+{
+    "python.jediEnabled": false,
+    "signature.target": "echo"
+}
