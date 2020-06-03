@@ -69,6 +69,7 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jparise/vim-graphql'
 Plug 'cespare/vim-toml'
+Plug 'kevinoid/vim-jsonc'
 
 " Navigation
 Plug 'jremmen/vim-ripgrep' " Search
