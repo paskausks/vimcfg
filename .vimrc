@@ -76,12 +76,14 @@ Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
 Plug 'itchyny/lightline.vim'
-Plug 'fielding/vice'
+Plug 'gruvbox-community/gruvbox'
 Plug 'ap/vim-buftabline' " Show buffers where the tabline is
 
 " Utility
 Plug 'scrooloose/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " VimWiki
 Plug 'vimwiki/vimwiki'
@@ -93,6 +95,10 @@ filetype plugin indent on    " required
 " KEYMAPS =======================================================
 " <silent> is a map modifier, which won't show the actual input.
 nmap <silent><F3> :Vexplore<Cr>
+
+" FZF as an alternative
+nmap <silent><C-P> :GFiles<CR>
+nmap <silent><F4> :Tags<CR>
 
 " shift+tab for inverse tabbing
 nmap <S-Tab> <<
@@ -188,7 +194,7 @@ let g:lightline = {
       \ 'colorscheme': 'darcula',
       \ }
 
-colorscheme vice
+colorscheme gruvbox
 set background=dark
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
@@ -303,6 +309,9 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
+
+" Emulate vscode by showing available code actions from pressing Alt+Enter
+nmap <M-CR> :call CocAction('codeAction')<CR>
 
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 " Commented out, because I am too used to paging down.
