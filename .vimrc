@@ -22,6 +22,7 @@ set nojoinspaces  " Prevents inserting two spaces after punctuation on a join (J
 set splitbelow    " Horizontal split below current.
 set splitright    " Vertical split to right of current.
 
+set diffopt+=vertical     " Diffs always vertical
 set fileformats=unix,dos  " Windows bad.
 
 syntax enable
@@ -192,6 +193,26 @@ set guioptions-=r        " scrollbar
 " Call before setting editor scheme.
 let g:lightline = {
       \ 'colorscheme': 'darcula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ 'mode_map': {
+        \ 'n' : 'N',
+        \ 'i' : 'I',
+        \ 'R' : 'R',
+        \ 'v' : 'V',
+        \ 'V' : 'VL',
+        \ "\<C-v>": 'VB',
+        \ 'c' : 'C',
+        \ 's' : 'S',
+        \ 'S' : 'SL',
+        \ "\<C-s>": 'SB',
+        \ 't': 'T',
+        \ },
       \ }
 
 colorscheme gruvbox
