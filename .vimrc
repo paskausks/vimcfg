@@ -156,6 +156,11 @@ nnoremap <BS><BS> :bd<CR>
 " Save and close buffer
 command WQ execute "w|bd"
 
+" Save with ctrl+S
+nmap <C-s> :w<CR>
+vmap <C-s> <ESC>:w<CR>
+imap <C-s> <ESC>:w<CR>
+
 " CONFIG =======================================================
 " netrw
 let g:netrw_liststyle = 3
@@ -234,6 +239,13 @@ let g:buftabline_show = 1
 
 " Close all buffers except the current one
 command! BufOnly execute '%bdelete|edit #|normal `"'
+
+" Open a terminal in a split
+command! VT execute 'vs|terminal'
+command! HT execute 'split|terminal'
+
+" When shift finger fat
+command! Q execute 'q'
 
 " BEGIN COC.VIM CONFIG =======================================================
 " if hidden is not set, TextEdit might fail.
