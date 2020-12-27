@@ -61,6 +61,7 @@ Plug 'tpope/vim-fugitive'
 "     * coc-json
 "     * coc-css - also supports less and scss
 "     * coc-rust-analyzer - rust analyzer, an alternative to rls.
+"     * coc-angular
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Syntax highlight
@@ -71,6 +72,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jparise/vim-graphql'
 Plug 'cespare/vim-toml'
 Plug 'kevinoid/vim-jsonc'
+Plug 'habamax/vim-godot'
 
 " Navigation
 Plug 'jremmen/vim-ripgrep' " Search
@@ -88,6 +90,7 @@ Plug 'junegunn/fzf.vim'
 
 " VimWiki
 Plug 'vimwiki/vimwiki'
+
 
 " All of your Plugins must be added before the following line
 call plug#end()              " required
@@ -246,6 +249,19 @@ command! HT execute 'split|terminal'
 
 " When shift finger fat
 command! Q execute 'q'
+
+" Godot
+func! GodotSettings() abort
+    setlocal foldmethod=expr
+    setlocal tabstop=4
+    nnoremap <buffer> <F4> :GodotRunLast<CR>
+    nnoremap <buffer> <F5> :GodotRun<CR>
+    nnoremap <buffer> <F6> :GodotRunCurrent<CR>
+    nnoremap <buffer> <F7> :GodotRunFZF<CR>
+endfunc
+augroup godot | au!
+    au FileType gdscript call GodotSettings()
+augroup end
 
 " BEGIN COC.VIM CONFIG =======================================================
 " if hidden is not set, TextEdit might fail.
