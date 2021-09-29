@@ -91,12 +91,18 @@ Plug 'junegunn/fzf.vim'
 " VimWiki
 Plug 'vimwiki/vimwiki'
 
-
 " All of your Plugins must be added before the following line
 call plug#end()              " required
 filetype plugin indent on    " required
 
 " KEYMAPS =======================================================
+" Buffer nav
+nmap <silent><C-l> :bn<Cr>
+nmap <silent><C-h> :bp<Cr>
+
+" Close buffer on double Backspace
+nnoremap <BS><BS> :bd<CR>
+
 " <silent> is a map modifier, which won't show the actual input.
 nmap <silent><F3> :Vexplore<Cr>
 
@@ -152,9 +158,6 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Print a numbered list of buffers. Type respective number to go to filename
 nnoremap <F5> :buffers<CR>:buffer<Space>
-
-" Close buffer on double Backspace
-nnoremap <BS><BS> :bd<CR>
 
 " Save and close buffer
 command WQ execute "w|bd"
