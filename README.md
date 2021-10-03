@@ -10,11 +10,11 @@ My daily-driver nvim configuration.
 
 ## Installation
 
-Clone/copy the repo contents in a directory which is in the VIM runtime path
+Clone/copy the repo contents in:
 
-* For vim, it's _~/.vim_. Symlink _.vimrc_ into your `HOME`.
-* For Neovim, it's _~/.config/nvim/_.  Symlink _.vimrc_ to _init.vim_.
-* For sharing the configuration between Neovim and vim, follow the steps above for vim and consult [this help entry](https://neovim.io/doc/user/nvim.html#nvim-from-vim).
+* Unix - _~/.config/nvim/init.vim_ (or init.lua)
+* Windows - _~/AppData/Local/nvim/init.vim_ (or init.lua)
+* or if `$XDG_CONFIG_HOME` is defined - _$XDG_CONFIG_HOME/nvim/init.vim_ (or init.lua)
 
 Create the cache directories:
 ```sh
