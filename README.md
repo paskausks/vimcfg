@@ -1,10 +1,10 @@
 # 📜 .vimrc
 
-My daily-driver vim configuration.
+My daily-driver nvim configuration.
 
 ## Requirements
 
-* A modern vim distribution like [Neovim](https://neovim.io/) >= 0.3.0 or [Vim](https://www.vim.org/) >= 8.0.
+* [Neovim](https://neovim.io/) >= 0.5.0
 * [Plug](https://github.com/junegunn/vim-plug)
 * The [Monoid](https://larsenwork.com/monoid/) font (for _nvim-qt_).
 
