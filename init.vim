@@ -172,6 +172,9 @@ nnoremap <BS><BS> :bd<CR>
 " Save and close buffer
 command WQ execute "w|bd"
 
+" Format JSON
+command JsonPretty execute "%!python -m json.tool"
+
 " Save with ctrl+S
 nmap <C-s> :w<CR>
 vmap <C-s> <ESC>:w<CR>
