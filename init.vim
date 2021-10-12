@@ -163,9 +163,6 @@ tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
 " Search for selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-" Print a numbered list of buffers. Type respective number to go to filename
-nnoremap <F5> :buffers<CR>:buffer<Space>
-
 " Close buffer on double Backspace
 nnoremap <BS><BS> :bd<CR>
 
@@ -174,11 +171,6 @@ command WQ execute "w|bd"
 
 " Format JSON
 command JsonPretty execute "%!python -m json.tool"
-
-" Save with ctrl+S
-nmap <C-s> :w<CR>
-vmap <C-s> <ESC>:w<CR>
-imap <C-s> <ESC>:w<CR>
 
 " CONFIG =======================================================
 " netrw
