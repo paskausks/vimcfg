@@ -30,6 +30,7 @@ set diffopt+=vertical     " Diffs always vertical
 set fileformats=unix,dos  " Windows bad.
 
 " set up space as leader key
+" Use <leader> when mapping (notice the lowercase "l" in "leader")
 nnoremap <SPACE> <Nop>
 let mapleader="\<Space>"
 
@@ -127,24 +128,31 @@ nmap <C-BS> <C-^>
 
 " <Leader> - backslash by default
 " remove trailing spaces in the current buffer
-nmap <Leader>t :%s/\s\+$//<Cr>
+nmap <leader>t :%s/\s\+$//<Cr>
 
 " Rust stuff
-nmap <Leader>b :!cargo build<Cr>
-nmap <Leader>bb :!cargo test<Cr>
-nmap <Leader>bt :!cargo test <C-R><C-W><Cr> " Runs test under cursor
-nmap <Leader>br :!cargo run<Cr>
-nmap <Leader>bc :!cargo clippy<Cr>
-nmap <Leader>bf :!cargo fmt<Cr>
+nmap <leader>b :!cargo build<Cr>
+nmap <leader>bb :!cargo test<Cr>
+nmap <leader>bt :!cargo test <C-R><C-W><Cr> " Runs test under cursor
+nmap <leader>br :!cargo run<Cr>
+nmap <leader>bc :!cargo clippy<Cr>
+nmap <leader>bf :!cargo fmt<Cr>
+
+" Run code inline
+nmap <leader>ts :w !ts-node<Cr>
+nmap <leader>js :w !node<Cr>
+
+" Format json with jq (jq '.' on unix-like)
+nmap <leader>jq :%!jq .<Cr>
 
 " Search word under cursor with ripgrep
-nmap <Leader>f :Rg<Cr>
+nmap <leader>f :Rg<Cr>
 
 " Copy to clipboard
-vmap <Bslash>y  "+y
-nmap <Bslash>Y  "+yg_
-nmap <Bslash>y  "+y
-nmap <Bslash>yy  "+yy
+vmap <leader>y  "+y
+nmap <leader>Y  "+yg_
+nmap <leader>y  "+y
+nmap <leader>yy  "+yy
 
 " Paste from clipboard
 nmap <Bslash>p "+p
