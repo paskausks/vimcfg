@@ -156,11 +156,13 @@ vmap <Bslash>p "+p
 vmap <Bslash>P "+P
 
 " Misc
-imap jj <ESC>
 imap <C-/> <ESC><plug>NERDCommenterToggle
 vmap <C-/> <plug>NERDCommenterToggle
 nmap <C-/> <plug>NERDCommenterToggle
 tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
+nmap <leader>d "=strftime('%c')<CR>p " Insert datetime
+imap <leader>d <ESC>"=strftime('%c')<CR>p
+
 
 " Buffer stuff
 " Search for selected text
