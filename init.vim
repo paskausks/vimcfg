@@ -29,11 +29,6 @@ set hidden          " Allow unsaved buffers
 set diffopt+=vertical     " Diffs always vertical
 set fileformats=unix,dos  " Windows bad.
 
-" set up space as leader key
-" Use <leader> when mapping (notice the lowercase "l" in "leader")
-nnoremap <SPACE> <Nop>
-let mapleader="\<Space>"
-
 syntax enable
 filetype off                  " required
 
@@ -73,7 +68,7 @@ Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
 Plug 'itchyny/lightline.vim'
-Plug 'gruvbox-community/gruvbox'
+Plug 'dracula/vim'
 Plug 'ap/vim-buftabline' " Show buffers where the tabline is
 
 " Utility
@@ -239,7 +234,7 @@ let g:lightline = {
         \ },
       \ }
 
-colorscheme gruvbox
+colorscheme dracula
 set background=dark
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
