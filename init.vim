@@ -212,6 +212,9 @@ set guioptions-=r        " scrollbar
 
 " Set Lightline colorscheme.
 " Call before setting editor scheme.
+"
+" for vim (not nvim), uncommenting the next line might be necessary
+" set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'darcula',
       \ 'active': {
