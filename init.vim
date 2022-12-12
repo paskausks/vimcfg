@@ -163,16 +163,12 @@ tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
 nmap <leader>d "=strftime('%c')<CR>p " Insert datetime
 imap <leader>d <ESC>"=strftime('%c')<CR>p
 
-
 " Buffer stuff
 " Search for selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Close buffer on double Backspace
 nnoremap <BS><BS> :bd<CR>
-
-" Save and close buffer
-command WQ execute "w|bd"
 
 " Format JSON
 command JsonPretty execute "%!python -m json.tool"
