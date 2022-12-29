@@ -104,7 +104,7 @@ nmap <silent><C-l> :bn<Cr>
 nmap <silent><C-h> :bp<Cr>
 
 " <silent> is a map modifier, which won't show the actual input.
-nmap <silent><F3> :Vexplore<Cr>
+nmap <silent><F3> :Lexplore<Cr>
 
 " telescope
 nnoremap <C-P> <cmd>Telescope find_files<cr>
