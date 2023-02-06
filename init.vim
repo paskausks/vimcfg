@@ -70,10 +70,12 @@ Plug 'jremmen/vim-ripgrep' " Search
 Plug 'itchyny/lightline.vim'
 Plug 'dracula/vim'
 Plug 'ap/vim-buftabline' " Show buffers where the tabline is
+Plug 'nvim-tree/nvim-web-devicons'
 
 " Utility
 Plug 'scrooloose/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
+Plug 'windwp/nvim-autopairs'
 
 " Telescope
 Plug 'nvim-lua/plenary.nvim'
@@ -104,11 +106,10 @@ nmap <silent><C-l> :bn<Cr>
 nmap <silent><C-h> :bp<Cr>
 
 " <silent> is a map modifier, which won't show the actual input.
-nmap <silent><F3> :Lexplore<Cr>
+nmap <silent><leader>ff :Lexplore<Cr>
 
 " telescope
-nnoremap <C-P> <cmd>Telescope find_files<cr>
-nnoremap <leader>ff <cmd>Telescope git_files<cr>
+nnoremap <C-P> <cmd>Telescope git_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
@@ -167,11 +168,19 @@ imap <leader>d <ESC>"=strftime('%c')<CR>p
 " Search for selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-" Close buffer on double Backspace
-nnoremap <BS><BS> :bd<CR>
+" Close buffer on leader-q
+nnoremap <leader>q :bd<CR>
 
-" Format JSON
+" COMMANDS ======================================================
+
 command JsonPretty execute "%!python -m json.tool"
+command OpenInExplorer execute "!explorer %:p:h"
+command CopyRelativeFilePath execute "let @* = expand(\"%\")"
+command! CurFileDir execute 'only|Lexplore %:h'
+command! BufOnly execute '%bdelete|edit #|call DeleteEmptyBuffers()|normal `"'
+command! BufCleanup execute 'call DeleteEmptyBuffers()'
+command! VT execute 'vs|terminal'
+command! HT execute 'split|terminal'
 
 " CONFIG =======================================================
 " netrw
@@ -252,15 +261,18 @@ autocmd BufWritePre * %s/\s\+$//e
 " Only show buffer tabline if there is more than 1 buffer opened
 let g:buftabline_show = 1
 
-" Close all buffers except the current one
-command! BufOnly execute '%bdelete|edit #|normal `"'
-
-" Open a terminal in a split
-command! VT execute 'vs|terminal'
-command! HT execute 'split|terminal'
-
-" When shift finger fat
-command! Q execute 'q'
+function! DeleteEmptyBuffers()
+    let [i, n; empty] = [1, bufnr('$')]
+    while i <= n
+        if bufexists(i) && bufname(i) == ''
+            call add(empty, i)
+        endif
+        let i += 1
+    endwhile
+    if len(empty) > 0
+        exe 'bdelete' join(empty)
+    endif
+endfunction
 
 " Godot
 func! GodotSettings() abort
