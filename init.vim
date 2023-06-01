@@ -25,9 +25,14 @@ set nojoinspaces    " Prevents inserting two spaces after punctuation on a join 
 set splitbelow      " Horizontal split below current.
 set splitright      " Vertical split to right of current.
 set hidden          " Allow unsaved buffers
+set scl=yes         " Set signcolumn for LSP information
 
 set diffopt+=vertical     " Diffs always vertical
 set fileformats=unix,dos  " Windows bad.
+
+" use filetype.lua instead of filetype.vim
+let g:do_filetype_lua = 1
+let g:did_load_filetypes = 0
 
 syntax enable
 filetype off                  " required
@@ -54,33 +59,29 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 
 " Syntax highlight
-Plug 'posva/vim-vue'
-Plug 'pangloss/vim-javascript'
-Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'othree/yajs.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jparise/vim-graphql'
-Plug 'cespare/vim-toml'
 Plug 'kevinoid/vim-jsonc'
-Plug 'habamax/vim-godot'
 
 " Navigation
 Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
 Plug 'itchyny/lightline.vim'
-Plug 'dracula/vim'
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'ap/vim-buftabline' " Show buffers where the tabline is
-Plug 'nvim-tree/nvim-web-devicons'
 
 " Utility
-Plug 'scrooloose/nerdcommenter' " Toggle comments
+Plug 'preservim/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+Plug 'nvim-tree/nvim-web-devicons' " optional
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'windwp/nvim-autopairs'
-
-" Telescope
-Plug 'nvim-lua/plenary.nvim'
-Plug 'BurntSushi/ripgrep'
-Plug 'nvim-telescope/telescope.nvim'
 
 " VimWiki
 Plug 'vimwiki/vimwiki'
@@ -95,54 +96,62 @@ Plug 'hrsh7th/cmp-nvim-lsp'     " LSP source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug 'L3MON4D3/LuaSnip'         " Snippets plugin
 
+" Snippets
+Plug 'MarcWeber/vim-addon-mw-utils' " Snipmate dep
+Plug 'tomtom/tlib_vim'              " Snipmate dep
+Plug 'garbas/vim-snipmate'          " Snippet engine
+Plug 'honza/vim-snippets'         " Community snippets
+
+Plug 'nvim-lua/plenary.nvim' " Telescope and harpoon
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'ThePrimeagen/harpoon'
+
 " All of your Plugins must be added before the following line
 call plug#end()              " required
 filetype plugin indent on    " required
 
+" COMMANDS ======================================================
+
+command JsonPretty execute "%!python -m json.tool"
+command OpenInExplorer execute "!explorer %:p:h"
+command CurFileDir execute "NvimTreeFindFile"
+command CopyRelativeFilePath execute "let @* = expand(\"%\")"
+command! BufCleanup execute 'call DeleteEmptyBuffers()'
+command! BufOnly execute '%bdelete|edit #|call DeleteEmptyBuffers()|normal `"'
+command! -bar Lint execute 'Prettier' | execute 'EslintFixAll'
+command HarpoonFile execute 'lua require("harpoon.mark").add_file()'
+command -bar NgTemplate execute 'let template_file = expand("%:r")..".html"' | execute 'edit' template_file
+command -bar NgStyle execute 'let style_file = expand("%:r")..".scss"' | execute 'edit' style_file
+
 " KEYMAPS =======================================================
+" <silent> is a map modifier, which won't show the actual input.
+" Unbind F1
+nmap <F1> :echo<CR>
+imap <F1> <C-o>:echo<CR>
 
 " Buffer nav
 nmap <silent><C-l> :bn<Cr>
 nmap <silent><C-h> :bp<Cr>
+nnoremap <silent><C-X> :bd<CR>
 
-" <silent> is a map modifier, which won't show the actual input.
-nmap <silent><leader>ff :Lexplore<Cr>
+nmap <leader>ff :NvimTreeOpen<Cr>
 
-" telescope
-nnoremap <C-P> <cmd>Telescope git_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" shift+tab for inverse tabbing
-nmap <S-Tab> <<
-imap <S-Tab> <Esc><<i
-
-" Go to alternate (previous) file with CTRL+Backspace
-" useful with peeking a file with "gf" and then going back.
-nmap <C-BS> <C-^>
+" file picker
+nnoremap <C-P> <cmd>Telescope find_files<cr>
 
 " <Leader> - backslash by default
 " remove trailing spaces in the current buffer
-nmap <leader>t :%s/\s\+$//<Cr>
-
-" Rust stuff
-nmap <leader>b :!cargo build<Cr>
-nmap <leader>bb :!cargo test<Cr>
-nmap <leader>bt :!cargo test <C-R><C-W><Cr> " Runs test under cursor
-nmap <leader>br :!cargo run<Cr>
-nmap <leader>bc :!cargo clippy<Cr>
-nmap <leader>bf :!cargo fmt<Cr>
+nmap <Leader>t :%s/\s\+$//<Cr>
 
 " Run code inline
 nmap <leader>ts :w !ts-node<Cr>
 nmap <leader>js :w !node<Cr>
 
-" Format json with jq (jq '.' on unix-like)
+" format json (jq '.' on unix-like)
 nmap <leader>jq :%!jq .<Cr>
 
 " Search word under cursor with ripgrep
-nmap <leader>f :Rg<Cr>
+nmap <Leader>f :Rg<Cr>
 
 " Copy to clipboard
 vmap <leader>y  "+y
@@ -151,36 +160,20 @@ nmap <leader>y  "+y
 nmap <leader>yy  "+yy
 
 " Paste from clipboard
-nmap <Bslash>p "+p
-nmap <Bslash>P "+P
-vmap <Bslash>p "+p
-vmap <Bslash>P "+P
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
 
 " Misc
-imap <C-/> <ESC><plug>NERDCommenterToggle
-vmap <C-/> <plug>NERDCommenterToggle
-nmap <C-/> <plug>NERDCommenterToggle
 tnoremap <Esc><Esc> <C-\><C-n> " Exit terminal mode when developer panics
-nmap <leader>d "=strftime('%c')<CR>p " Insert datetime
-imap <leader>d <ESC>"=strftime('%c')<CR>p
 
 " Buffer stuff
 " Search for selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-" Close buffer on leader-q
-nnoremap <leader>q :bd<CR>
-
-" COMMANDS ======================================================
-
-command JsonPretty execute "%!python -m json.tool"
-command OpenInExplorer execute "!explorer %:p:h"
-command CopyRelativeFilePath execute "let @* = expand(\"%\")"
-command! CurFileDir execute 'only|Lexplore %:h'
-command! BufOnly execute '%bdelete|edit #|call DeleteEmptyBuffers()|normal `"'
-command! BufCleanup execute 'call DeleteEmptyBuffers()'
-command! VT execute 'vs|terminal'
-command! HT execute 'split|terminal'
+" Harpoon
+nmap <silent><C-E> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 " CONFIG =======================================================
 " netrw
@@ -196,11 +189,21 @@ let g:rehash256 = 1
 " Enable TrueColor
 set termguicolors
 
+" NERDCOMMENTER defaults
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
 " Remove toolbars and scrollbars.
 set guifont=Hasklig:h18  " unused in nvim-qt, use ginit.vim (see below)
 set guioptions-=m        " menu bar
 set guioptions-=T        " toolbar
 set guioptions-=r        " scrollbar
+
+" use Prettier where config preset
+" let g:prettier#autoformat_config_present = 1
 
 """ NVIM-QT NOTES """
 " To remove the QT toolbar on windows for nvim-qt, go to the registry:
@@ -217,11 +220,8 @@ set guioptions-=r        " scrollbar
 
 " Set Lightline colorscheme.
 " Call before setting editor scheme.
-"
-" for vim (not nvim), uncommenting the next line might be necessary
-" set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'darcula',
+      \ 'colorscheme': 'tokyonight',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -244,16 +244,26 @@ let g:lightline = {
         \ },
       \ }
 
-colorscheme dracula
-set background=dark
+" There are also colorschemes for the different styles
+" colorscheme tokyonight-night
+" colorscheme tokyonight-storm
+" colorscheme tokyonight-day
+" colorscheme tokyonight-moon
+colorscheme tokyonight-day
+set background=light
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
 " surrounded)
 let g:surround_40 = "(\r)"
 let g:surround_91= "[\r]"
 
+" Snipmate
+let g:snipMate = { 'snippet_version' : 1 }
+imap <C-J> <Plug>snipMateNextOrTrigger
+smap <C-J> <Plug>snipMateNextOrTrigger
+
 " Vimwiki settings - path and set to markdown mode.
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+let g:vimwiki_list = [{'path': 'C:\Users\rp\vimwiki', 'syntax': 'markdown', 'ext': '.wiki'}]
 
 " Remove trailing spaces before save
 autocmd BufWritePre * %s/\s\+$//e
@@ -276,7 +286,6 @@ endfunction
 
 " Godot
 func! GodotSettings() abort
-    setlocal foldmethod=expr
     setlocal tabstop=4
     nnoremap <buffer> <F4> :GodotRunLast<CR>
     nnoremap <buffer> <F5> :GodotRun<CR>
@@ -289,44 +298,49 @@ augroup end
 
 " nvim lsp stuff
 lua << EOF
-local nvim_lsp = require('lspconfig')
 
--- Use an on_attach function to only map the following keys
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '[g', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']g', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+-- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-end
-
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<space>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'tsserver' }
+
+local servers = { 'tsserver', 'eslint', 'graphql', 'nxls' }
+local nvim_lsp = require('lspconfig')
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -400,4 +414,19 @@ cmp.setup {
   },
 }
 -- END AUTOCOMPLETE SETUP
+
+-- START NVIM-TREE SETUP
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require("nvim-tree").setup()
+
+-- use defaults for nvim autoparis
+require("nvim-autopairs").setup {}
+-- END NVIM-TREE SETUP
 EOF
