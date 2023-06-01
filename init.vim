@@ -96,6 +96,7 @@ Plug 'hrsh7th/nvim-cmp'         " Autocompletion plugin
 Plug 'hrsh7th/cmp-nvim-lsp'     " LSP source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug 'L3MON4D3/LuaSnip'         " Snippets plugin
+Plug 'hrsh7th/cmp-buffer'       " Buffers as a source
 
 " Snippets
 Plug 'MarcWeber/vim-addon-mw-utils' " Snipmate dep
@@ -337,19 +338,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-
-local servers = { 'tsserver', 'eslint', 'graphql', 'nxls' }
-local nvim_lsp = require('lspconfig')
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
 
 -- BEGIN AUTOCOMPLETE SETUP
 -- Autocompletion is expensive. In order to provide completion, text must be synchronized on each completion request,
@@ -357,61 +345,68 @@ end
 -- If you notice slowdowns, the most likely candidate is your autocompletion plugin, or the language server which
 -- is bottlenecking it.
 
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+local lspconfig = require('lspconfig')
+
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+local servers = { 'tsserver' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    -- on_attach = my_custom_on_attach,
+    capabilities = capabilities,
+  }
+end
+
+lspconfig['gdscript'].setup {
+    capabilities = capabilities,
+    cmd = vim.lsp.rpc.connect('127.0.0.1', '6005')
+}
 
 -- luasnip setup
 local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
-
-local check_back_space = function()
-    local col = vim.fn.col '.' - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' ~= nil
-end
-
 cmp.setup {
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  mapping = cmp.mapping.preset.insert({
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+    -- C-b (back) C-f (forward) for snippet placeholder navigation.
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = function(core, fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
-      elseif not check_back_space() then
-        cmp.mapping.complete()(core, fallback)
+        luasnip.expand_or_jump()
       else
-        vim.cmd(':>')
+        fallback()
       end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+        luasnip.jump(-1)
       else
-        vim.cmd(':<')
+        fallback()
       end
-    end,
-  },
+    end, { 'i', 's' }),
+  }),
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'buffer' },
   },
 }
 -- END AUTOCOMPLETE SETUP
