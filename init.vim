@@ -361,7 +361,8 @@ end
 
 lspconfig['gdscript'].setup {
     capabilities = capabilities,
-    cmd = vim.lsp.rpc.connect('127.0.0.1', '6005')
+    -- requires netcat
+    cmd = { 'nc', 'localhost', '6005' }
 }
 
 -- luasnip setup
