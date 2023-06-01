@@ -124,7 +124,10 @@ command -bar NgTemplate execute 'let template_file = expand("%:r")..".html"' | e
 command -bar NgStyle execute 'let style_file = expand("%:r")..".scss"' | execute 'edit' style_file
 
 " KEYMAPS =======================================================
+<<<<<<< HEAD
 " <silent> is a map modifier, which won't show the actual input.
+=======
+>>>>>>> bd8be1cb287a2aa026b59a22565955cd17637deb
 " Unbind F1
 nmap <F1> :echo<CR>
 imap <F1> <C-o>:echo<CR>
