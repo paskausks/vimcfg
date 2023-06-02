@@ -97,12 +97,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'     " LSP source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug 'L3MON4D3/LuaSnip'         " Snippets plugin
 Plug 'hrsh7th/cmp-buffer'       " Buffers as a source
-
-" Snippets
-Plug 'MarcWeber/vim-addon-mw-utils' " Snipmate dep
-Plug 'tomtom/tlib_vim'              " Snipmate dep
-Plug 'garbas/vim-snipmate'          " Snippet engine
-Plug 'honza/vim-snippets'         " Community snippets
+Plug 'honza/vim-snippets'       " Community snippets
 
 Plug 'nvim-lua/plenary.nvim' " Telescope and harpoon
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
@@ -259,10 +254,10 @@ set background=light
 let g:surround_40 = "(\r)"
 let g:surround_91= "[\r]"
 
-" Snipmate
-let g:snipMate = { 'snippet_version' : 1 }
-imap <C-J> <Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
+" luasnip
+" press <Tab> to expand or jump in a snippet. These can also be mapped separately
+" via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
 
 " Vimwiki settings - path and set to markdown mode.
 let g:vimwiki_list = [{'path': 'C:\Users\rp\vimwiki', 'syntax': 'markdown', 'ext': '.wiki'}]
@@ -424,8 +419,11 @@ vim.opt.termguicolors = true
 
 -- empty setup using defaults
 require("nvim-tree").setup()
+-- END NVIM-TREE SETUP
 
 -- use defaults for nvim autoparis
 require("nvim-autopairs").setup {}
--- END NVIM-TREE SETUP
+
+-- use snipmate snippets with luasnip
+require("luasnip.loaders.from_snipmate").lazy_load()
 EOF
