@@ -362,6 +362,8 @@ end
 lspconfig['gdscript'].setup {
     capabilities = capabilities,
     -- requires netcat
+    -- for windows, get "ncat" (https://nmap.org/ncat/)
+    -- and alias ncat to nc
     cmd = { 'nc', 'localhost', '6005' }
 }
 
