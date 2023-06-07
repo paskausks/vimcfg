@@ -129,6 +129,8 @@ imap <F1> <C-o>:echo<CR>
 " Buffer nav
 nmap <silent><C-l> :bn<Cr>
 nmap <silent><C-h> :bp<Cr>
+nmap <silent><C-Left> :bn<Cr>
+nmap <silent><C-Right> :bp<Cr>
 nnoremap <silent><C-X> :bd<CR>
 
 nmap <leader>ff :NvimTreeOpen<Cr>
