@@ -100,7 +100,7 @@ Plug 'hrsh7th/cmp-buffer'       " Buffers as a source
 Plug 'honza/vim-snippets'       " Community snippets
 
 Plug 'nvim-lua/plenary.nvim' " Telescope and harpoon
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
 Plug 'ThePrimeagen/harpoon'
 
 " All of your Plugins must be added before the following line
