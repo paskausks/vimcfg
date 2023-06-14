@@ -97,7 +97,6 @@ Plug 'hrsh7th/cmp-nvim-lsp'     " LSP source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 Plug 'L3MON4D3/LuaSnip'         " Snippets plugin
 Plug 'hrsh7th/cmp-buffer'       " Buffers as a source
-Plug 'honza/vim-snippets'       " Community snippets
 
 Plug 'nvim-lua/plenary.nvim' " Telescope and harpoon
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
