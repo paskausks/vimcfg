@@ -58,11 +58,7 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 
-" Syntax highlight
-Plug 'othree/yajs.vim'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'jparise/vim-graphql'
-Plug 'kevinoid/vim-jsonc'
+" Godot utils
 Plug 'habamax/vim-godot'
 
 " Navigation
@@ -77,9 +73,6 @@ Plug 'ap/vim-buftabline' " Show buffers where the tabline is
 " Utility
 Plug 'preservim/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 Plug 'nvim-tree/nvim-web-devicons' " optional
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'windwp/nvim-autopairs'
@@ -466,5 +459,8 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+  indent = {
+    enable = true
+  }
 }
 EOF
