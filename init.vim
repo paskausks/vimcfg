@@ -194,7 +194,7 @@ let g:NERDCreateDefaultMappings = 1
 let g:NERDSpaceDelims = 1
 
 " Remove toolbars and scrollbars.
-set guifont=Hasklig:h18  " unused in nvim-qt, use ginit.vim (see below)
+set guifont=Hasklug\ Nerd\ Font\ Mono:h14  " unused in nvim-qt, use ginit.vim (see below)
 set guioptions-=m        " menu bar
 set guioptions-=T        " toolbar
 set guioptions-=r        " scrollbar
@@ -248,6 +248,12 @@ let g:lightline = {
 " colorscheme tokyonight-moon
 colorscheme tokyonight-day
 set background=light
+
+if exists("g:neovide")
+    let g:neovide_refresh_rate = 120
+    let g:neovide_padding_left = 8
+    let g:neovide_fullscreen = v:true
+endif
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
 " surrounded)
