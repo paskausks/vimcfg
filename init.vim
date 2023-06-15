@@ -300,8 +300,15 @@ augroup godot | au!
     au FileType gdscript call GodotSettings()
 augroup end
 
-" nvim lsp stuff
+" lua config
 lua << EOF
+
+-- sign column (gutter) icons
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
