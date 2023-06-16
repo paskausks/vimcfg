@@ -303,7 +303,8 @@ augroup end
 lua << EOF
 
 -- sign column (gutter) icons
-local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+local round_ico = "󱓻"
+local signs = { Error = round_ico, Warn = round_ico, Hint = round_ico, Info = round_ico }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
