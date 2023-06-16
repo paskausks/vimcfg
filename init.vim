@@ -134,7 +134,7 @@ nnoremap <silent><C-X> :bd<CR>
 nmap <leader>ff :NvimTreeOpen<Cr>
 
 " file picker
-nnoremap <C-P> <cmd>Telescope find_files<cr>
+nnoremap <C-P> <cmd>Telescope git_files<cr>
 
 " <Leader> - backslash by default
 " remove trailing spaces in the current buffer
@@ -290,10 +290,10 @@ endfunction
 " Godot
 func! GodotSettings() abort
     setlocal tabstop=4
-    nnoremap <buffer> <F4> :GodotRunLast<CR>
-    nnoremap <buffer> <F5> :GodotRun<CR>
-    nnoremap <buffer> <F6> :GodotRunCurrent<CR>
-    nnoremap <buffer> <F7> :GodotRunFZF<CR>
+    let g:godot_executable = "C:\\opt\\godot352\\Godot_v3.5.2-stable_win64.exe"
+    nnoremap <buffer> <leader>grl :GodotRunLast<CR>
+    nnoremap <buffer> <leader>gg :GodotRun<CR>
+    nnoremap <buffer> <leader>gr :GodotRunCurrent<CR>
 endfunc
 augroup godot | au!
     au FileType gdscript call GodotSettings()
