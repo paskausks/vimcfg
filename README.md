@@ -4,17 +4,17 @@ My daily-driver nvim configuration.
 
 ## Requirements
 
-* [Neovim](https://neovim.io/) >= 0.5.0
+* A recent [Neovim](https://neovim.io/) installation
 * [Plug](https://github.com/junegunn/vim-plug)
-* The [Monoid](https://larsenwork.com/monoid/) font (for _nvim-qt_).
+* cc/gdd/clang/cl/etc. to compile [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) parsers.
 
 ## Installation
 
 Clone/copy the repo contents in:
 
-* Unix - _~/.config/nvim/init.vim_ (or init.lua)
-* Windows - _~/AppData/Local/nvim/init.vim_ (or init.lua)
-* or if `$XDG_CONFIG_HOME` is defined - _$XDG_CONFIG_HOME/nvim/init.vim_ (or init.lua)
+* Unix - _~/.config/nvim/
+* Windows - _~/AppData/Local/nvim/_
+* or if `$XDG_CONFIG_HOME` is defined - _$XDG_CONFIG_HOME/nvim/_ (or init.lua)
 
 Create the cache directories:
 ```sh

@@ -113,10 +113,7 @@ command CurFileDir execute "NvimTreeFindFile"
 command CopyRelativeFilePath execute "let @* = expand(\"%\")"
 command! BufCleanup execute 'call DeleteEmptyBuffers()'
 command! BufOnly execute '%bdelete|edit #|call DeleteEmptyBuffers()|normal `"'
-command! -bar Lint execute 'Prettier' | execute 'EslintFixAll'
 command HarpoonFile execute 'lua require("harpoon.mark").add_file()'
-command -bar NgTemplate execute 'let template_file = expand("%:r")..".html"' | execute 'edit' template_file
-command -bar NgStyle execute 'let style_file = expand("%:r")..".scss"' | execute 'edit' style_file
 
 " KEYMAPS =======================================================
 " <silent> is a map modifier, which won't show the actual input.
@@ -134,7 +131,8 @@ nnoremap <silent><C-X> :bd<CR>
 nmap <leader>ff :NvimTreeOpen<Cr>
 
 " file picker
-nnoremap <C-P> <cmd>Telescope git_files<cr>
+nnoremap <space>n <cmd>Telescope find_files<cr>
+nmap <space>t <cmd>Telescope buffers<cr>
 
 " <Leader> - backslash by default
 " remove trailing spaces in the current buffer
@@ -149,6 +147,7 @@ nmap <leader>jq :%!jq .<Cr>
 
 " Search word under cursor with ripgrep
 nmap <Leader>f :Rg<Cr>
+nmap <space>ff :Rg<space>
 
 " Copy to clipboard
 vmap <leader>y  "+y
