@@ -246,12 +246,13 @@ let g:lightline = {
 " colorscheme tokyonight-day
 " colorscheme tokyonight-moon
 colorscheme tokyonight-day
-set background=light
+set background=dark
 
 if exists("g:neovide")
-    let g:neovide_refresh_rate = 120
+    let g:neovide_refresh_rate = 60
     let g:neovide_padding_left = 8
     let g:neovide_fullscreen = v:true
+    let g:neovide_cursor_animation_length = 0
 endif
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
