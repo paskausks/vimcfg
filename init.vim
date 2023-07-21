@@ -73,7 +73,6 @@ Plug 'ap/vim-buftabline' " Show buffers where the tabline is
 " Utility
 Plug 'preservim/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
-Plug 'nvim-tree/nvim-web-devicons' " optional
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'windwp/nvim-autopairs'
 
@@ -131,7 +130,7 @@ nnoremap <silent><C-X> :bd<CR>
 nmap <leader>ff :NvimTreeOpen<Cr>
 
 " file picker
-nnoremap <space>n <cmd>Telescope find_files<cr>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
 nmap <space>t <cmd>Telescope buffers<cr>
 
 " <Leader> - backslash by default
@@ -302,6 +301,13 @@ augroup end
 " lua config
 lua << EOF
 
+require'telescope'.setup{
+  defaults = {
+      -- ignore godot addons directory
+      file_ignore_patterns = { "^src\\addons\\" }
+  },
+}
+
 -- sign column (gutter) icons
 local round_ico = "󱓻"
 local signs = { Error = round_ico, Warn = round_ico, Hint = round_ico, Info = round_ico }
@@ -360,7 +366,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'tsserver' }
+local servers = { 'tsserver', 'rust_analyzer'}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = my_custom_on_attach,
@@ -450,7 +456,7 @@ require("luasnip.loaders.from_snipmate").lazy_load()
 
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "gdscript" },
+  ensure_installed = { "gdscript", "rust" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
