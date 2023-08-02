@@ -66,13 +66,14 @@ Plug 'jremmen/vim-ripgrep' " Search
 
 " Visual
 Plug 'itchyny/lightline.vim'
-Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'EdenEast/nightfox.nvim'
 Plug 'ap/vim-buftabline' " Show buffers where the tabline is
 
 " Utility
 Plug 'preservim/nerdcommenter' " Toggle comments
 Plug 'editorconfig/editorconfig-vim'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'windwp/nvim-autopairs'
 
@@ -113,6 +114,7 @@ command CopyRelativeFilePath execute "let @* = expand(\"%\")"
 command! BufCleanup execute 'call DeleteEmptyBuffers()'
 command! BufOnly execute '%bdelete|edit #|call DeleteEmptyBuffers()|normal `"'
 command HarpoonFile execute 'lua require("harpoon.mark").add_file()'
+command MyTodos execute 'Rg TODO\(rp\)'
 
 " KEYMAPS =======================================================
 " <silent> is a map modifier, which won't show the actual input.
@@ -216,7 +218,7 @@ set guioptions-=r        " scrollbar
 " Set Lightline colorscheme.
 " Call before setting editor scheme.
 let g:lightline = {
-      \ 'colorscheme': 'tokyonight',
+      \ 'colorscheme': 'dayfox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -240,19 +242,8 @@ let g:lightline = {
       \ }
 
 " There are also colorschemes for the different styles
-" colorscheme tokyonight-night
-" colorscheme tokyonight-storm
-" colorscheme tokyonight-day
-" colorscheme tokyonight-moon
-colorscheme tokyonight-day
-set background=dark
-
-if exists("g:neovide")
-    let g:neovide_refresh_rate = 60
-    let g:neovide_padding_left = 8
-    let g:neovide_fullscreen = v:true
-    let g:neovide_cursor_animation_length = 0
-endif
+colorscheme dayfox
+set background=light
 
 " Surround options (decimals equal to ASCII codes and '\r' is the text to be
 " surrounded)
@@ -289,7 +280,7 @@ endfunction
 " Godot
 func! GodotSettings() abort
     setlocal tabstop=4
-    let g:godot_executable = "C:\\opt\\godot352\\Godot_v3.5.2-stable_win64.exe"
+    let g:godot_executable = "%GODOT4_BIN%" "this env is also used for rust
     nnoremap <buffer> <leader>grl :GodotRunLast<CR>
     nnoremap <buffer> <leader>gg :GodotRun<CR>
     nnoremap <buffer> <leader>gr :GodotRunCurrent<CR>
@@ -303,8 +294,27 @@ lua << EOF
 
 require'telescope'.setup{
   defaults = {
-      -- ignore godot addons directory
-      file_ignore_patterns = { "^src\\addons\\" }
+      file_ignore_patterns = {
+          "^src\\addons\\", -- godot addons
+          ".tscn$",
+          ".tres$",
+          ".stylebox$",
+          ".import$",
+          ".theme$",
+          ".png$",
+          ".psd$",
+          ".jpg$",
+          ".webm$",
+          ".ogg$",
+          ".wav$",
+          ".mp3$",
+          ".ttf$",
+          ".ocf$",
+          ".zip$",
+      },
+      path_display = {
+          truncate = 3,
+      }
   },
 }
 
