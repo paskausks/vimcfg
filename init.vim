@@ -84,6 +84,7 @@ Plug 'vimwiki/vimwiki'
 " usage :TSInstall <some_lang>
 " will compile a parser dylib
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
 
 " LSP
 " npm install -g typescript typescript-language-server
@@ -217,14 +218,64 @@ set guioptions-=r        " scrollbar
 
 " Set Lightline colorscheme.
 " Call before setting editor scheme.
+function! LightlineFilename()
+  let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+  let modified = &modified ? '+' : ''
+  return filename . modified
+endfunction
+
+function! LightlineBranch()
+  let head = FugitiveHead()
+  if empty(head)
+      return ''
+  endif
+  return ' ' . head
+endfunction
+
+function! LightlineFileFormat()
+  let lineEnding = &fileformat
+  if lineEnding == 'unix'
+      return ''
+  endif
+
+  if lineEnding == 'dos'
+      return '󰖳'
+  else
+      return '󰀵'
+  endif
+endfunction
+
+function! LightlineFileEncoding()
+  let encoding = &fileencoding
+  return encoding == 'utf-8' ? '' : encoding
+endfunction
+
+function! LightlineFileType()
+  " i know what these are anyway
+  let ignoredFt = [
+    \ 'gdscript',
+    \ 'gitcommit',
+    \ 'javascript',
+    \ 'vim',
+    \ 'rust',
+    \ 'fugitive']
+  let ft = &filetype
+  return index(ignoredFt, ft) != -1 ? "" : ft
+endfunction
+
 let g:lightline = {
       \ 'colorscheme': 'dayfox',
+      \ 'subseparator': { 'left': '', 'right': ''},
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'gitbranch', 'readonly', 'filename' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
+      \   'gitbranch': 'LightlineBranch',
+      \   'filename': 'LightlineFilename',
+      \   'fileformat': 'LightlineFileFormat',
+      \   'fileencoding': 'LightlineFileEncoding',
+      \   'filetype': 'LightlineFileType',
       \ },
       \ 'mode_map': {
         \ 'n' : 'N',
@@ -344,7 +395,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
@@ -355,9 +406,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, opts)
     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts) -- use treesitter-refactor
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<space>f', function()
       vim.lsp.buf.format { async = true }
     end, opts)
@@ -482,5 +533,20 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
+
+  -- nvim-treesitter-refactor
+  refactor = {
+      highlight_definitions = {
+          enable = true,
+          -- Set to false if you have an `updatetime` of ~100.
+          clear_on_cursor_move = true,
+      },
+      smart_rename = {
+          enable = true,
+          keymaps = {
+              smart_rename = "<space>rn",
+          },
+      },
+    },
 }
 EOF
