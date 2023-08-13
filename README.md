@@ -1,4 +1,4 @@
-# 📜 .vimrc
+# 📜 init.lua
 
 My daily-driver nvim configuration.
 
