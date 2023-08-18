@@ -28,7 +28,6 @@ vim.keymap.set("n", "<Leader>jq", ":%!jq .<cr>")
 
 -- Search word under cursor with ripgrep
 vim.keymap.set("n", "<Leader>f", ":Rg<cr>")
-vim.keymap.set("n", "<space>ff", ":Rg<space>")
 
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")

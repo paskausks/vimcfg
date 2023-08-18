@@ -1,2 +1,30 @@
 snippet todo "todo comment"
-	# TODO: ${1}
+	# TODO(rp): ${1}
+
+snippet tst "timestamped print"
+	prints("[", Time.get_datetime_string_from_system() ,"] ${1}")
+
+snippet tstjson "timestamped print with JSON stringify"
+	prints("[", Time.get_datetime_string_from_system() ,"] ${1}", JSON.stringify(${2}, "\t"))
+
+snippet func "func ...() -> ..."
+	func ${1}() -> ${2}:
+		${3}
+
+snippet fready "_ready()"
+	func _ready() -> void:
+		${1}
+
+snippet finput "_input()"
+	func _input(event: InputEvent) -> void:
+		${1}
+
+snippet fprocess "_process(delta: float)"
+	func _process(delta: float) -> void:
+		${1}
+
+snippet onready "@onready"
+	@onready var ${1}
+
+snippet export "@export"
+	@export var ${1}

@@ -1,22 +1,33 @@
 require'telescope'.setup{
   defaults = {
       file_ignore_patterns = {
-          "^src\\addons\\", -- godot addons
+          -- godot
+          "^src\\addons\\",
           ".tscn$",
           ".tres$",
           ".stylebox$",
           ".import$",
           ".theme$",
+
+          -- images
           ".png$",
           ".psd$",
+          ".pdf$",
           ".jpg$",
-          ".webm$",
+          ".ocf$",
+
+          -- audio
           ".ogg$",
           ".wav$",
           ".mp3$",
-          ".ttf$",
-          ".ocf$",
+
+          -- video
+          ".webm$",
+
+          -- misc
           ".zip$",
+          ".otf$",
+          ".ttf$",
       },
       path_display = {
           truncate = 3,
