@@ -26,7 +26,7 @@ return require('packer').startup(function(use)
     }
 
     -- visual
-    use "EdenEast/nightfox.nvim"
+    use "rebelot/kanagawa.nvim"
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }

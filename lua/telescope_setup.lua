@@ -2,7 +2,7 @@ require'telescope'.setup{
   defaults = {
       file_ignore_patterns = {
           -- godot
-          "^src\\addons\\",
+          "^src\\addons\\gdUnit4",
           ".tscn$",
           ".tres$",
           ".stylebox$",

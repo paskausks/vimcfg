@@ -1,5 +1,8 @@
-vim.cmd.colorscheme("dayfox")
-vim.opt.background = "light"
+-- require("kanagawa").load("wave") the default heart-warming theme,
+-- require("kanagawa").load("dragon") for those late-night sessions
+-- require("kanagawa").load("lotus") for when you're out in the open.
+vim.cmd.colorscheme("kanagawa")
+vim.opt.background = "dark"
 vim.opt.termguicolors = true
 vim.g.rehash256 = 1
 

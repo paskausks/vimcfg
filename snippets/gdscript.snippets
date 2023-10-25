@@ -7,9 +7,8 @@ snippet tst "timestamped print"
 snippet tstjson "timestamped print with JSON stringify"
 	prints("[", Time.get_datetime_string_from_system() ,"] ${1}", JSON.stringify(${2}, "\t"))
 
-snippet func "func ...() -> ..."
-	func ${1}() -> ${2}:
-		${3}
+snippet gn "get node by unique name"
+	get_node("%${1}")
 
 snippet fready "_ready()"
 	func _ready() -> void:
