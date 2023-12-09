@@ -4,7 +4,7 @@ require'telescope'.setup{
           -- godot
           "^src\\addons\\gdUnit4",
           ".tscn$",
-          ".tres$",
+          --".tres$",
           ".stylebox$",
           ".import$",
           ".theme$",
