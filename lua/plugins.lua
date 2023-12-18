@@ -7,8 +7,6 @@ return require('packer').startup(function(use)
     use "tpope/vim-surround"
     use "tpope/vim-fugitive"
     use "habamax/vim-godot"
-    use "preservim/nerdcommenter"
-    use "editorconfig/editorconfig-vim"
     use "nvim-tree/nvim-web-devicons"
     use {
         'nvim-tree/nvim-tree.lua',
@@ -21,12 +19,12 @@ return require('packer').startup(function(use)
     use "vimwiki/vimwiki"
     use {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.2",
+        tag = "0.1.5",
         requires = { {"nvim-lua/plenary.nvim"} }
     }
 
     -- visual
-    use "rebelot/kanagawa.nvim"
+    use "kvrohit/mellow.nvim"
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
