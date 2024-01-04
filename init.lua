@@ -1,6 +1,6 @@
+require("plugins")
 require("tree")
 require("options")
-require("plugins")
 require("visual")
 require("commands")
 require("keybinds")

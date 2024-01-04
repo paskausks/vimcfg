@@ -26,7 +26,6 @@ end
 vim.opt.showtabline = 0      -- always show tabs in gvim, but not vim
 vim.opt.colorcolumn = "120"  -- add red column for line limit (probably should be set in ftypes
 vim.opt.scrolloff = 8        -- minimal number of screen lines to keep above and below the cursor.
-vim.opt.showmode = false     -- mode already shown in lualine.
 vim.opt.ignorecase = true    -- ignore case in searches.
 vim.opt.hlsearch = false     -- don't highlight search results.
 vim.opt.incsearch = true     -- While typing a search command, show where the pattern, as it was typed so far, matches

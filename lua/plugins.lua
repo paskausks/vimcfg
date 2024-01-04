@@ -1,49 +1,55 @@
-return require('packer').startup(function(use)
-    -- Packer can manage itself
-    use "wbthomason/packer.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
+require("lazy").setup({
     -- utility
-    use "neovim/nvim-lspconfig"
-    use "tpope/vim-surround"
-    use "tpope/vim-fugitive"
-    use "habamax/vim-godot"
-    use "nvim-tree/nvim-web-devicons"
-    use {
-        'nvim-tree/nvim-tree.lua',
-        requires = {
-            'nvim-tree/nvim-web-devicons',
+    "neovim/nvim-lspconfig",
+    "tpope/vim-surround",
+    "tpope/vim-fugitive",
+    "habamax/vim-godot",
+    "nvim-tree/nvim-web-devicons",
+    {
+        "nvim-tree/nvim-tree.lua",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
         },
-    }
-    use "windwp/nvim-autopairs"
-    use "jremmen/vim-ripgrep"
-    use "vimwiki/vimwiki"
-    use {
+    },
+    "windwp/nvim-autopairs",
+    "jremmen/vim-ripgrep",
+    "vimwiki/vimwiki",
+    {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.5",
-        requires = { {"nvim-lua/plenary.nvim"} }
-    }
+        dependencies = { "nvim-lua/plenary.nvim" }
+    },
 
     -- visual
-    use "kvrohit/mellow.nvim"
-    use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-    }
+    "mellow-theme/mellow.nvim",
 
     -- For LSP autocomplete
-    use "hrsh7th/nvim-cmp"         -- Autocompletion plugin
-    use "hrsh7th/cmp-nvim-lsp"     -- LSP source for nvim-cmp
-    use "saadparwaiz1/cmp_luasnip" -- Snippets source for nvim-cmp
-    use "L3MON4D3/LuaSnip"         -- Snippets plugin
-    use "hrsh7th/cmp-buffer"       -- Buffers as a source
-    use "onsails/lspkind.nvim"     -- Kind icons
+    "hrsh7th/nvim-cmp",         -- Autocompletion plugin
+    "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
+    "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
+    "L3MON4D3/LuaSnip",         -- Snippets plugin
+    "hrsh7th/cmp-buffer",       -- Buffers as a source
+    "onsails/lspkind.nvim",     -- Kind icons
 
     -- Treesitter
     -- usage :TSInstall <some_lang>
     -- will compile a parser
-    use {
+    {
         "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate"
-    }
-    use "nvim-treesitter/nvim-treesitter-refactor"
-end)
+        build = ":TSUpdate"
+    },
+    "nvim-treesitter/nvim-treesitter-refactor",
+})
