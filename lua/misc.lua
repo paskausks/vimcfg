@@ -1,6 +1,3 @@
--- use defaults for nvim autoparis
-require("nvim-autopairs").setup {}
-
 -- use snipmate snippets with luasnip
 require("luasnip.loaders.from_snipmate").lazy_load()
 

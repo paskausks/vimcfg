@@ -24,7 +24,6 @@ require("lazy").setup({
             "nvim-tree/nvim-web-devicons",
         },
     },
-    "windwp/nvim-autopairs",
     "jremmen/vim-ripgrep",
     "vimwiki/vimwiki",
     {
@@ -34,7 +33,7 @@ require("lazy").setup({
     },
 
     -- visual
-    "mellow-theme/mellow.nvim",
+    "axvr/photon.vim",
 
     -- For LSP autocomplete
     "hrsh7th/nvim-cmp",         -- Autocompletion plugin
