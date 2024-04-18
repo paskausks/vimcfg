@@ -28,12 +28,12 @@ require("lazy").setup({
     "vimwiki/vimwiki",
     {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.5",
+        tag = "0.1.6",
         dependencies = { "nvim-lua/plenary.nvim" }
     },
 
     -- visual
-    "axvr/photon.vim",
+    "loctvl842/monokai-pro.nvim",
 
     -- For LSP autocomplete
     "hrsh7th/nvim-cmp",         -- Autocompletion plugin
