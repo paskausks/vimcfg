@@ -16,6 +16,10 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     "tpope/vim-surround",
     "tpope/vim-fugitive",
+    {
+        "lewis6991/gitsigns.nvim",
+         config = require("gitsigns_setup"),
+    },
     "habamax/vim-godot",
     "nvim-tree/nvim-web-devicons",
     {
@@ -33,7 +37,12 @@ require("lazy").setup({
     },
 
     -- visual
-    "loctvl842/monokai-pro.nvim",
+    {
+        "bluz71/vim-moonfly-colors",
+        name = "moonfly",
+        lazy = false,
+        priority = 1000
+    },
 
     -- For LSP autocomplete
     "hrsh7th/nvim-cmp",         -- Autocompletion plugin

@@ -1,6 +1,6 @@
 require"nvim-treesitter.configs".setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "gdscript", "rust", "lua", "c_sharp" },
+  ensure_installed = { "gdscript", "rust", "lua", "c_sharp", "cmake", "vimdoc" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
