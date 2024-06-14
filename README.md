@@ -5,7 +5,6 @@ My daily-driver nvim configuration.
 ## Requirements
 
 * A recent [Neovim](https://neovim.io/) installation
-* [Packer.nvim](https://github.com/wbthomason/packer.nvim)
 * cc/gdd/clang/cl/etc. to compile [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) parsers.
 
 ## Installation
@@ -23,10 +22,4 @@ mkdir ~/.vim/backups
 mkdir ~/.vim/swap
 ```
 
-Install plugins:
-
-```vim
-:lua require("packer").install()
-```
-
-and hack away!
+Run and hack away!
