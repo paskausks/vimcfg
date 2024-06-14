@@ -37,6 +37,7 @@ require("lazy").setup({
     },
 
     -- visual
+    "ap/vim-buftabline",
     {
         "bluz71/vim-moonfly-colors",
         name = "moonfly",

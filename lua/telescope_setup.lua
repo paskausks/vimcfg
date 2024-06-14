@@ -7,6 +7,7 @@ require'telescope'.setup{
           ".stylebox$",
           ".import$",
           ".theme$",
+          ".material$",
 
           -- images
           ".png$",
@@ -14,6 +15,8 @@ require'telescope'.setup{
           ".pdf$",
           ".jpg$",
           ".ocf$",
+          ".ico$",
+          ".kra$",
 
           -- audio
           ".ogg$",
@@ -22,11 +25,18 @@ require'telescope'.setup{
 
           -- video
           ".webm$",
+          ".ogv$",
+          ".aep$",
 
           -- misc
+          ".bin$",
+          ".mo$",
+          ".xls$",
           ".zip$",
           ".otf$",
           ".ttf$",
+          ".tmp$",
+          "~$",
       },
       path_display = {
           truncate = 3,

@@ -40,6 +40,25 @@ vim.keymap.set("n", "<leader>yy", "\"+yy")
 vim.keymap.set({ "n", "v" }, "<leader>p", "\"+p")
 vim.keymap.set({ "n", "v" }, "<leader>P", "\"+P")
 
+-- Navigate to buffers via <C-1>, <C-2>, etc.
+function switch_to_buffer_by_position(position)
+  local buffers = vim.api.nvim_list_bufs()
+  local listed_buffers = {}
+  for _, buffer in ipairs(buffers) do
+    if vim.api.nvim_buf_get_option(buffer, 'buflisted') then
+      table.insert(listed_buffers, buffer)
+    end
+  end
+  if position <= #listed_buffers then
+    vim.api.nvim_set_current_buf(listed_buffers[position])
+  end
+end
+
+for i = 1, 9 do
+  vim.keymap.set('n', '<C-' .. i .. '>', ':lua switch_to_buffer_by_position(' .. i .. ')<CR>', { noremap = true, silent = true })
+end
+vim.keymap.set('n', '<C-0>', ':lua switch_to_buffer_by_position(10)<CR>', { noremap = true, silent = true })
+
 -- Misc
 -- exit insert mode in :terminal via double esc press.
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
