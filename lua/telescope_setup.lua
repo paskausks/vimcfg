@@ -30,6 +30,7 @@ require'telescope'.setup{
 
           -- misc
           ".bin$",
+          ".o$",
           ".mo$",
           ".xls$",
           ".zip$",
