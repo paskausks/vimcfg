@@ -35,15 +35,11 @@ require("lazy").setup({
         tag = "0.1.8",
         dependencies = { "nvim-lua/plenary.nvim" }
     },
+    "chaoren/vim-wordmotion",
 
     -- visual
     "ap/vim-buftabline",
-    {
-        "bluz71/vim-moonfly-colors",
-        name = "moonfly",
-        lazy = false,
-        priority = 1000
-    },
+    "yorickpeterse/vim-paper",
 
     -- For LSP autocomplete
     "hrsh7th/nvim-cmp",         -- Autocompletion plugin
