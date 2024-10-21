@@ -12,9 +12,7 @@ vim.keymap.set("n", "<C-Left>", buf_prev, { silent = true })
 vim.keymap.set("n", "<C-x>", ":bd<cr>", { silent = true })
 
 -- file pickers
-local ts_builtin = require('telescope.builtin')
-vim.keymap.set("n", "<C-p>", ts_builtin.find_files, { silent = true })
-vim.keymap.set("n", "<space>t", ts_builtin.buffers, { silent = true })
+vim.keymap.set("n", "<c-P>", require('fzf-lua').files, { desc = "Fzf Files" })
 vim.keymap.set("n", "<space>ff", ":NvimTreeOpen<cr>")
 
 -- remove trailing spaces in the current buffer
