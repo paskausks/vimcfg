@@ -38,7 +38,8 @@ require("lazy").setup({
 
     -- visual
     "ap/vim-buftabline",
-    "yorickpeterse/vim-paper",
+    "yorickpeterse/vim-paper",  -- Minimalistic light theme
+    "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
 
     -- For LSP autocomplete
     "hrsh7th/nvim-cmp",         -- Autocompletion plugin
