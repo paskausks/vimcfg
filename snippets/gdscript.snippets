@@ -1,21 +1,21 @@
 snippet todo "todo comment"
 	# TODO(rp): ${1}
 
+snippet fixme "fixme comment"
+	# FIXME(rp): ${1}
+
 snippet tst "timestamped print"
 	prints("[", Time.get_datetime_string_from_system() ,"] ${1}")
 
 snippet tstjson "timestamped print with JSON stringify"
 	prints("[", Time.get_datetime_string_from_system() ,"] ${1}", JSON.stringify(${2}, "\t"))
 
-snippet gn "get node by unique name"
-	get_node("%${1}")
-
 snippet fready "_ready()"
 	func _ready() -> void:
 		${1}
 
 snippet finput "_input()"
-	func _input(event: InputEvent) -> void:
+	func _unhandled_input(event: InputEvent) -> void:
 		${1}
 
 snippet fprocess "_process(delta: float)"
@@ -30,3 +30,15 @@ snippet export "@export"
 
 snippet cb "inline callable"
 	func() -> void: ${1}
+
+snippet map "map function"
+	${1}.map(
+		func (item: ${2}) -> ${3}:
+			return ${4}
+	)
+
+snippet filter "filter function"
+	${1}.filter(
+		func (item: ${2}) -> bool:
+			return ${3}
+	)
