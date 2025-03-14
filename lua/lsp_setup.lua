@@ -82,7 +82,7 @@ blink.setup {
         ["<CR>"] = { "accept", "fallback" },
     },
     sources = {
-        default = { "snippets", "lsp", "path", "snippets", "buffer" },
+        default = { "snippets", "lsp", "path", "buffer" },
     },
     fuzzy = { implementation = "prefer_rust_with_warning" },
     snippets = { preset = "luasnip" },
