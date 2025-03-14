@@ -41,13 +41,14 @@ require("lazy").setup({
     "yorickpeterse/vim-paper",  -- Minimalistic light theme
     "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
 
-    -- For LSP autocomplete
-    "hrsh7th/nvim-cmp",         -- Autocompletion plugin
-    "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
-    "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
-    "L3MON4D3/LuaSnip",         -- Snippets plugin
-    "hrsh7th/cmp-buffer",       -- Buffers as a source
-    "onsails/lspkind.nvim",     -- Kind icons
+    -- Autocomplete for LSP
+    {
+        "saghen/blink.cmp",
+        version = "v0.13.1",
+        dependencies = {
+            "L3MON4D3/LuaSnip",         -- Snippets plugin
+        },
+    },
 
     -- Treesitter
     -- usage :TSInstall <some_lang>

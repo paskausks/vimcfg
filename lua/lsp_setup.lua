@@ -54,11 +54,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- If you notice slowdowns, the most likely candidate is your autocompletion plugin, or the language server which
 -- is bottlenecking it.
 
--- Add additional capabilities supported by nvim-cmp
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- Add additional capabilities supported by blink.cmp
+local blink = require("blink.cmp")
+local capabilities = blink.get_lsp_capabilities()
 local lspconfig = require("lspconfig")
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+-- Enable some language servers with the additional completion capabilities offered by blink.cmp
 local servers = { "ts_ls", "rust_analyzer", "clangd", "csharp_ls", "gopls", "pylsp"}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
@@ -75,50 +76,14 @@ lspconfig["gdscript"].setup {
     cmd = { "nc", "localhost", "6005" }
 }
 
--- nvim-cmp setup
-local cmp = require "cmp"
-local lspkind = require "lspkind"
-local luasnip = require "luasnip"
-
--- https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
-local has_words_before = function()
-    unpack = unpack or table.unpack
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-cmp.setup {
-    formatting = {
-        format = lspkind.cmp_format({
-            mode = "symbol"
-        }),
+blink.setup {
+    keymap = {
+        preset = "default",
+        ["<CR>"] = { "accept", "fallback" },
     },
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
-    mapping = cmp.mapping.preset.insert({
-        ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
-        ["<C-d>"] = cmp.mapping.scroll_docs(4), -- Down
-        -- C-b (back) C-f (forward) for snippet placeholder navigation.
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        },
-    }),
     sources = {
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "buffer" },
+        default = { "snippets", "lsp", "path", "snippets", "buffer" },
     },
+    fuzzy = { implementation = "prefer_rust_with_warning" },
+    snippets = { preset = "luasnip" },
 }
-
-cmp.setup.filetype('vimwiki', {
-    enabled = false,
-})
-
-cmp.setup.filetype('markdown', {
-    enabled = false,
-})
