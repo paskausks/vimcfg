@@ -61,3 +61,10 @@ vim.opt.wildignore:append { "**/node_modules/**", "*/dist/*","*/target/*","*/bui
 vim.opt.background = "dark"
 vim.opt.termguicolors = true
 vim.g.rehash256 = 1
+
+-- Show trailing spaces
+vim.opt.list = true
+vim.opt.listchars:append {
+    tab = "  ",
+    trail = "·",
+}

@@ -3,6 +3,7 @@ vim.api.nvim_create_user_command("OpenInExplorer", "!explorer %:p:h", {})
 vim.api.nvim_create_user_command("CurFileDir", "NvimTreeFindFile", {})
 vim.api.nvim_create_user_command("CopyRelativeFilePath", 'let @* = expand("%")', {})
 vim.api.nvim_create_user_command("MyTodos", "Rg TODO\\(rp\\)", {})
+vim.api.nvim_create_user_command("Whitespace", "%s/\\s\\+$//e", {})
 vim.api.nvim_create_user_command(
     "InsertDateTime",
     function()
