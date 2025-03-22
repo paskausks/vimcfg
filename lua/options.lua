@@ -1,6 +1,12 @@
 local utils = require("utils")
 local home = vim.env.HOME
 
+-- for nvim-tree
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.opt.termguicolors = true
+
 -- Tab settings, 4 spaces by default
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
@@ -50,3 +56,8 @@ vim.g.did_load_filetypes = 0
 -- Set search paths in ./after/ftplugin/somefiletypename.vim.
 -- More in :h ftplugin
 vim.opt.wildignore:append { "**/node_modules/**", "*/dist/*","*/target/*","*/build/*" }
+
+-- Visuals
+vim.opt.background = "dark"
+vim.opt.termguicolors = true
+vim.g.rehash256 = 1

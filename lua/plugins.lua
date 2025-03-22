@@ -13,41 +13,102 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     -- utility
-    "neovim/nvim-lspconfig",
-    "tpope/vim-surround",
-    "tpope/vim-fugitive",
+    {
+        "neovim/nvim-lspconfig",
+        config = require("lsp_setup"),
+    },
+    {
+        "tpope/vim-surround",
+        event = "VeryLazy",
+        config = function()
+            -- Surround options (decimals equal to ASCII codes and '\r' is the text to be
+            -- surrounded)
+            vim.g.surround_40 = "(\r)"
+            vim.g.surround_91 = "[\r]"
+        end,
+    },
+    {
+        "tpope/vim-fugitive",
+        cmd = "G",
+    },
     {
         "lewis6991/gitsigns.nvim",
-         config = require("gitsigns_setup"),
+        config = require("gitsigns_setup"),
+        event = "VeryLazy"
     },
-    "habamax/vim-godot",
-    "nvim-tree/nvim-web-devicons",
+    {
+        "nvim-tree/nvim-web-devicons",
+        lazy = true,
+    },
     {
         "nvim-tree/nvim-tree.lua",
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        keys = {
+            { "<leader>ff", "<cmd>NvimTreeOpen<cr>", desc = "Open NvimTree" },
         },
+        opts = {} -- explicitly call setup()
     },
-    "jremmen/vim-ripgrep",
-    "vimwiki/vimwiki",
+    {
+        "jremmen/vim-ripgrep",
+        cmd = "Rg", -- load on command
+    },
+    {
+        "vimwiki/vimwiki",
+        ft = "markdown", -- load on opening a markdown file
+    },
     {
         "ibhagwan/fzf-lua",
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        keys = {
+            { "<C-p>", "<cmd>FzfLua files<cr>", desc = "FZF files" },
+        },
     },
-    "chaoren/vim-wordmotion",
+    {
+        "chaoren/vim-wordmotion",
+        event = "VeryLazy"
+    },
 
     -- visual
-    "ap/vim-buftabline",
-    "yorickpeterse/vim-paper",  -- Minimalistic light theme
-    "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
-
-    -- Autocomplete for LSP
     {
-        "saghen/blink.cmp",
-        version = "v0.13.1",
+        "ap/vim-buftabline",
+        event = "BufAdd",
+    },
+    {
+        "yorickpeterse/vim-paper",  -- Minimalistic light theme
+        lazy = true, -- just don't load for now
+    },
+    {
+        "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            vim.cmd.colorscheme("darkvoid")
+        end,
+    },
+
+    -- For LSP autocomplete
+    {
+        "hrsh7th/nvim-cmp",         -- Autocompletion plugin
+        event = "InsertEnter",
         dependencies = {
+            "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
+            "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
             "L3MON4D3/LuaSnip",         -- Snippets plugin
+            "hrsh7th/cmp-buffer",       -- Buffers as a source
+            "onsails/lspkind.nvim",     -- Kind icons
         },
+        config = require("nvim_cmp_setup"),
+    },
+    {
+        "L3MON4D3/LuaSnip",         -- Snippets plugin
+        lazy = true,
+        config = function()
+            -- use snipmate snippets with luasnip
+            require("luasnip.loaders.from_snipmate").lazy_load()
+
+            local ls = require("luasnip")
+            vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
+            vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
+        end,
     },
 
     -- Treesitter
@@ -55,7 +116,8 @@ require("lazy").setup({
     -- will compile a parser
     {
         "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate"
+        build = ":TSUpdate",
+        dependencies = { "nvim-treesitter/nvim-treesitter-refactor" },
+        config = require("treesitter_setup"),
     },
-    "nvim-treesitter/nvim-treesitter-refactor",
 })

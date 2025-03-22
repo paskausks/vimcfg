@@ -11,10 +11,6 @@ vim.keymap.set("n", "<C-h>", buf_prev, { silent = true })
 vim.keymap.set("n", "<C-Left>", buf_prev, { silent = true })
 vim.keymap.set("n", "<C-x>", ":bd<cr>", { silent = true })
 
--- file pickers
-vim.keymap.set("n", "<c-P>", require('fzf-lua').files, { desc = "Fzf Files" })
-vim.keymap.set("n", "<space>ff", ":NvimTreeOpen<cr>")
-
 -- remove trailing spaces in the current buffer
 vim.keymap.set("n", "<Leader>t", ":%s/\\s\\+$//<Cr>")
 
@@ -37,11 +33,6 @@ vim.keymap.set("n", "<leader>yy", "\"+yy")
 -- Paste from clipboard
 vim.keymap.set({ "n", "v" }, "<leader>p", "\"+p")
 vim.keymap.set({ "n", "v" }, "<leader>P", "\"+P")
-
--- Luasnip navigation
-local ls = require("luasnip")
-vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
-vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
 
 -- Navigate to buffers via <C-1>, <C-2>, etc.
 function switch_to_buffer_by_position(position)
