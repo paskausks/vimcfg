@@ -28,7 +28,7 @@ local function setup()
           smart_rename = {
               enable = true,
               keymaps = {
-                  smart_rename = "<space>rn",
+                  smart_rename = "<space>rr",
               },
           },
         },
