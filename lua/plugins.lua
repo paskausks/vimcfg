@@ -70,8 +70,18 @@ require("lazy").setup({
 
     -- visual
     {
-        "ap/vim-buftabline",
+        "akinsho/bufferline.nvim",
+        version = "*",
+        dependencies = "nvim-tree/nvim-web-devicons",
         event = "BufAdd",
+        opts = {
+            options = {
+                -- basically, emulate vim-buftabline
+                show_buffer_icons = false,
+                show_buffer_close_icons = false,
+                show_close_icon = false,
+            },
+        }
     },
     {
         "yorickpeterse/vim-paper",  -- Minimalistic light theme
@@ -119,5 +129,6 @@ require("lazy").setup({
         build = ":TSUpdate",
         dependencies = { "nvim-treesitter/nvim-treesitter-refactor" },
         config = require("treesitter_setup"),
+        event = "BufAdd",
     },
 })
