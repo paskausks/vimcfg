@@ -29,7 +29,10 @@ require("lazy").setup({
     },
     {
         "tpope/vim-fugitive",
-        cmd = "G",
+        event = "VeryLazy",
+        config = function ()
+            vim.opt.statusline = "%{FugitiveStatusline()} " .. vim.opt.statusline:get()
+        end
     },
     {
         "lewis6991/gitsigns.nvim",
@@ -88,11 +91,15 @@ require("lazy").setup({
         lazy = true, -- just don't load for now
     },
     {
-        "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
+        "owickstrom/vim-colors-paramount", -- minimalistic dark theme
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
-            vim.cmd.colorscheme("darkvoid")
+            vim.cmd.colorscheme("paramount")
         end,
+    },
+    {
+        "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
+        lazy = true, -- just don't load for now
     },
 
     -- For LSP autocomplete
