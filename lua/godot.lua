@@ -4,17 +4,6 @@ vim.g.godot_path_env = "GODOT4BETA"
 -- args for running godot game
 vim.g.godot_args = "--colemak"
 
--- Create a command to set it
-vim.api.nvim_create_user_command("GodotSet", function(opts)
-  vim.g.godot_path_env = opts.args
-end, {
-  nargs = 1,
-})
-
-vim.api.nvim_create_user_command("GodotGet", function(opts)
-  print(vim.g.godot_path_env)
-end, {})
-
 -- launch the main scene set for the project in the current working directory (has to have a "project.godot")
 vim.keymap.set("n", "<Leader>g", function()
   local godot_path = os.getenv(vim.g.godot_path_env)
