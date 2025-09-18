@@ -56,24 +56,26 @@ local function setup()
 
     -- Add additional capabilities supported by blink.cmp
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    local lspconfig = require("lspconfig")
 
     -- Enable some language servers with the additional completion capabilities offered by blink.cmp
     local servers = { "ts_ls", "eslint", "rust_analyzer", "clangd", "csharp_ls", "gopls", "pylsp"}
     for _, lsp in ipairs(servers) do
-      lspconfig[lsp].setup {
+      vim.lsp.config[lsp] = {
         -- on_attach = my_custom_on_attach,
         capabilities = capabilities,
       }
+      vim.lsp.enable(lsp)
     end
 
-    lspconfig["gdscript"].setup {
+    vim.lsp.config["gdscript"] = {
         capabilities = capabilities,
         -- requires netcat
         -- for windows, get "ncat" (https://nmap.org/ncat/)
         -- and alias ncat to nc
         cmd = { "nc", "localhost", "6005" }
     }
+
+    vim.lsp.enable("gdscript")
 end
 
 return setup
