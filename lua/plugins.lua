@@ -47,7 +47,7 @@ require("lazy").setup({
         "nvim-tree/nvim-tree.lua",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
-            { "<leader>ff", "<cmd>NvimTreeOpen<cr>", desc = "Open NvimTree" },
+            { "<leader>ff", "<cmd>NvimTreeFindFile<cr>", desc = "Open NvimTree" },
         },
         opts = {} -- explicitly call setup()
     },
