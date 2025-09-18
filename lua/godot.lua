@@ -1,13 +1,13 @@
 -- Env var for godot executable
-vim.g.godot_path_env = "GODOT4BETA"
+vim.g.gd_path_env = "GODOT4BETA"
 
 -- args for running godot game
-vim.g.godot_args = "--colemak"
+vim.g.gd_args = "--colemak"
 
 -- launch the main scene set for the project in the current working directory (has to have a "project.godot")
 vim.keymap.set("n", "<Leader>g", function()
-  local godot_path = os.getenv(vim.g.godot_path_env)
-  local args = vim.g.godot_args or ""
+  local godot_path = os.getenv(vim.g.gd_path_env)
+  local args = vim.g.gd_args or ""
   vim.cmd("!" .. godot_path .. " " .. args)
 end)
 
@@ -30,7 +30,7 @@ map_extensions_to_filetype({ "csvschema" }, "json")
 -- Extract GDScript node reference into a variable.
 -- Takes a line like this: "(%SomeNode as SomeType).foo()"
 -- and puts a line above it like this "var some_node: SomeType = %SomeNode"
-vim.api.nvim_create_user_command("ExtractNodeVar", function()
+vim.api.nvim_create_user_command("GDExtractNodeVar", function()
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local line = vim.api.nvim_get_current_line()
 
