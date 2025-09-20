@@ -1,0 +1,8 @@
+snippet todo "todo comment"
+	// TODO(rp): ${1}
+
+snippet tst "timestamped godot-rust gdextension print"
+	godot::global::prints(&[
+	    godot::classes::Time::singleton().get_datetime_string_from_system().to_variant(),
+	    $1,
+	]);
