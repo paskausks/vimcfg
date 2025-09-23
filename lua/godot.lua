@@ -48,3 +48,14 @@ vim.api.nvim_create_user_command("GDExtractNodeVar", function()
 
   vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, { new_line })
 end, {})
+
+-- Use gdscript formatter by GDQuest on save
+-- Get at https://github.com/GDQuest/GDScript-formatter
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*.gd",
+    callback = function()
+        local file = vim.fn.expand("%")
+        vim.cmd("silent! !gdscript-format --reorder-code " .. vim.fn.fnameescape(file))
+        vim.cmd("e!")
+    end,
+})
