@@ -104,16 +104,13 @@ require("lazy").setup({
 
     -- For LSP autocomplete
     {
-        "hrsh7th/nvim-cmp",         -- Autocompletion plugin
-        event = "InsertEnter",
+        'saghen/blink.cmp',
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
-            "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
             "L3MON4D3/LuaSnip",         -- Snippets plugin
-            "hrsh7th/cmp-buffer",       -- Buffers as a source
-            "onsails/lspkind.nvim",     -- Kind icons
         },
-        config = require("nvim_cmp_setup"),
+        version = "1.*",
+        opts = require("blinkcmp_opts"),
+        opts_extend = { "sources.default" }
     },
     {
         "L3MON4D3/LuaSnip",         -- Snippets plugin

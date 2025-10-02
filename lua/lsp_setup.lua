@@ -55,7 +55,7 @@ local function setup()
     -- is bottlenecking it.
 
     -- Add additional capabilities supported by blink.cmp
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    local capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
     -- Enable some language servers with the additional completion capabilities offered by blink.cmp
     local servers = { "ts_ls", "eslint", "rust_analyzer", "clangd", "csharp_ls", "gopls", "pylsp"}
