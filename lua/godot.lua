@@ -51,11 +51,11 @@ end, {})
 
 -- Use gdscript formatter by GDQuest on save
 -- Get at https://github.com/GDQuest/GDScript-formatter
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.gd",
-    callback = function()
-        local file = vim.fn.expand("%")
-        vim.cmd("silent! !gdscript-format --reorder-code " .. vim.fn.fnameescape(file))
-        vim.cmd("e!")
-    end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--     pattern = "*.gd",
+--     callback = function()
+--         local file = vim.fn.expand("%")
+--         vim.cmd("silent! !gdscript-format --reorder-code " .. vim.fn.fnameescape(file))
+--         vim.cmd("e!")
+--     end,
+-- })
