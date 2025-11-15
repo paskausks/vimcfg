@@ -92,21 +92,25 @@ require("lazy").setup({
     },
     {
         "owickstrom/vim-colors-paramount", -- minimalistic dark theme
-        priority = 1000, -- make sure to load this before all the other start plugins
-        config = function()
-            vim.cmd.colorscheme("paramount")
-        end,
+        lazy = true, -- just don't load for now
     },
     {
         "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
-        lazy = true, -- just don't load for now
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            vim.cmd.colorscheme("darkvoid")
+            vim.opt.background = "dark"
+        end,
     },
 
     -- For LSP autocomplete
     {
         'saghen/blink.cmp',
         dependencies = {
-            "L3MON4D3/LuaSnip",         -- Snippets plugin
+            {
+                "L3MON4D3/LuaSnip",
+                version = "v2.*",
+            },
         },
         version = "1.*",
         opts = require("blinkcmp_opts"),
