@@ -23,8 +23,8 @@ local function map_extensions_to_filetype(exts, filetype)
   end
 end
 
-map_extensions_to_filetype({ "actioncnd", "levelcnd" }, "yaml")
-map_extensions_to_filetype({ "wordlist", "synonymlist" }, "csv")
+map_extensions_to_filetype({ "locmeta" }, "yaml")
+map_extensions_to_filetype({ "termlist" }, "csv")
 map_extensions_to_filetype({ "csvschema" }, "json")
 
 -- Extract GDScript node reference into a variable.

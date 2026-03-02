@@ -30,15 +30,3 @@ snippet export "@export"
 
 snippet cb "inline callable"
 	func() -> void:
-
-snippet map "map function"
-	${1}.map(
-		func (item: ${2}) -> ${3}:
-			return ${4}
-	)
-
-snippet filter "filter function"
-	${1}.filter(
-		func (item: ${2}) -> bool:
-			return ${3}
-	)
