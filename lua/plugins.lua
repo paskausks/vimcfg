@@ -70,6 +70,23 @@ require("lazy").setup({
         "chaoren/vim-wordmotion",
         event = "VeryLazy"
     },
+    {
+        'stevearc/aerial.nvim',
+        -- Optional dependencies
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons"
+        },
+        config = function()
+            require("aerial").setup({
+              open_automatic = true,
+              layout = {
+                default_direction = "left",
+                min_width = 40,
+              }
+            })
+        end,
+    },
 
     -- visual
     {
@@ -137,6 +154,6 @@ require("lazy").setup({
         build = ":TSUpdate",
         dependencies = { "nvim-treesitter/nvim-treesitter-refactor" },
         config = require("treesitter_setup"),
-        event = "BufAdd",
-    },
+        lazy = false,
+    }
 })
