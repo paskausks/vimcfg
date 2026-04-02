@@ -104,8 +104,13 @@ require("lazy").setup({
         }
     },
     {
-        "yorickpeterse/vim-paper",  -- Minimalistic light theme
-        lazy = true, -- just don't load for now
+        "oskarnurm/koda.nvim", -- minimalistic theme
+        lazy = false,
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            vim.cmd("colorscheme koda")
+            vim.opt.background = "dark"
+        end,
     },
     {
         "owickstrom/vim-colors-paramount", -- minimalistic dark theme
@@ -113,11 +118,7 @@ require("lazy").setup({
     },
     {
         "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
-        priority = 1000, -- make sure to load this before all the other start plugins
-        config = function()
-            vim.cmd.colorscheme("darkvoid")
-            vim.opt.background = "dark"
-        end,
+        lazy = true, -- just don't load for now
     },
 
     -- For LSP autocomplete
