@@ -80,6 +80,11 @@ require("lazy").setup({
         config = function()
             require("aerial").setup({
               open_automatic = true,
+              ignore = {
+                filetypes = {
+                    "markdown"
+                }
+              },
               layout = {
                 default_direction = "left",
                 min_width = 40,
