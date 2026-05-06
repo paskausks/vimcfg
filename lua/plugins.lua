@@ -70,7 +70,6 @@ require("lazy").setup({
         'stevearc/aerial.nvim',
         -- Optional dependencies
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons"
         },
         config = function()
@@ -147,14 +146,4 @@ require("lazy").setup({
             vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
         end,
     },
-
-    -- Treesitter
-    -- usage :TSInstall <some_lang>
-    -- will compile a parser
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        config = require("treesitter_setup"),
-        lazy = false,
-    }
 })
