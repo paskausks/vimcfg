@@ -77,7 +77,8 @@ require("lazy").setup({
               open_automatic = true,
               ignore = {
                 filetypes = {
-                    "markdown"
+                    "markdown",
+                    "gitcommit",
                 }
               },
               layout = {
