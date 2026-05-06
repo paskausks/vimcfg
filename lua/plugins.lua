@@ -14,6 +14,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     -- utility
     {
+        "neovim/nvim-lspconfig",
+        config = require("lsp_setup"),
+    },
+    {
         "tpope/vim-surround",
         event = "VeryLazy",
         config = function()
