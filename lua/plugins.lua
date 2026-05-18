@@ -65,6 +65,9 @@ require("lazy").setup({
         keys = {
             { "<C-p>", "<cmd>FzfLua files<cr>", desc = "FZF files" },
         },
+        opts = {
+            file_ignore_patterns = require("file_ignore_patterns")
+        }
     },
     {
         "chaoren/vim-wordmotion",
