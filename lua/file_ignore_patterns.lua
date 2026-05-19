@@ -7,15 +7,19 @@ return {
     "controller_icons/",
     "proton_scatter/",
     "func_godot/",
+    "yaml_dot_gd",
+    "nanoid",
+    "addons/fmod/",
 
     -- Godot resources
-    "%.tres$",
+    "%.t?res$",
     "%.stylebox$",
     "%.import$",
     "%.theme$",
     "%.depren$",
     "%.material$",
     "%.lmbake$",
+    "%.anim$",
     "%.uid$",
 
     -- Images
@@ -27,6 +31,7 @@ return {
     "%.ico$",
     "%.exr$",
     "%.kra$",
+    "%.avif$",
 
     -- Audio
     "%.ogg$",
@@ -45,7 +50,7 @@ return {
     "%.mo$",
 
     -- Spreadsheets / archives
-    "%.xls$",
+    "%.xlsx?$",
     "%.zip$",
 
     -- Fonts
@@ -58,6 +63,9 @@ return {
     "%.blend$",
     "%.blend1$",
     "%.xcf$",
+    "%.fbx$",
+    "%.ma$",
+    "%.mdp$",
 
     -- Map / cache
     "%.map$",
