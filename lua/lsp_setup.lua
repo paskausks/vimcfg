@@ -58,7 +58,7 @@ local function setup()
     local capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
     -- Enable some language servers with the additional completion capabilities offered by blink.cmp
-    local servers = { "ts_ls", "eslint", "rust_analyzer", "clangd", "csharp_ls", "gopls", "pylsp"}
+    local servers = { "ts_ls", "eslint", "rust_analyzer", "clangd", "dockerls", "ols"}
     for _, lsp in ipairs(servers) do
       vim.lsp.config[lsp] = {
         -- on_attach = my_custom_on_attach,
