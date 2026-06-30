@@ -113,8 +113,7 @@ require("lazy").setup({
     },
     {
         "oskarnurm/koda.nvim", -- minimalistic theme
-        lazy = false,
-        priority = 1000, -- make sure to load this before all the other start plugins
+        lazy = true, -- just don't load for now
         config = function()
             vim.cmd("colorscheme koda-moss")
             vim.opt.background = "dark"
@@ -122,7 +121,11 @@ require("lazy").setup({
     },
     {
         "owickstrom/vim-colors-paramount", -- minimalistic dark theme
-        lazy = true, -- just don't load for now
+        lazy = false,
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            vim.cmd("colorscheme paramount")
+        end,
     },
     {
         "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
@@ -132,26 +135,8 @@ require("lazy").setup({
     -- For LSP autocomplete
     {
         'saghen/blink.cmp',
-        dependencies = {
-            {
-                "L3MON4D3/LuaSnip",
-                version = "v2.*",
-            },
-        },
         version = "1.*",
         opts = require("blinkcmp_opts"),
         opts_extend = { "sources.default" }
-    },
-    {
-        "L3MON4D3/LuaSnip",         -- Snippets plugin
-        lazy = true,
-        config = function()
-            -- use snipmate snippets with luasnip
-            require("luasnip.loaders.from_snipmate").lazy_load()
-
-            local ls = require("luasnip")
-            vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
-            vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
-        end,
     },
 })
