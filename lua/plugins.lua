@@ -113,18 +113,11 @@ require("lazy").setup({
     },
     {
         "oskarnurm/koda.nvim", -- minimalistic theme
-        lazy = true, -- just don't load for now
-        config = function()
-            vim.cmd("colorscheme koda-moss")
-            vim.opt.background = "dark"
-        end,
-    },
-    {
-        "owickstrom/vim-colors-paramount", -- minimalistic dark theme
         lazy = false,
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
-            vim.cmd("colorscheme paramount")
+            vim.cmd("colorscheme koda-moss")
+            vim.opt.background = "dark"
         end,
     },
     {
