@@ -1,15 +1,6 @@
 return {
     -- Folders
     ".godot/",
-    "gdUnit4/",
-    "dialogic/",
-    "dialogue_manager/",
-    "controller_icons/",
-    "proton_scatter/",
-    "func_godot/",
-    "yaml_dot_gd",
-    "nanoid",
-    "addons/fmod/",
 
     -- Godot resources
     "%.t?res$",
@@ -47,7 +38,11 @@ return {
     -- Binary / compiled
     "%.bin$",
     "%.o$",
+    "%.so$",
     "%.mo$",
+    "%.dll$",
+    "%.exp$",
+    "%.lib$",
 
     -- Spreadsheets / archives
     "%.xlsx?$",
@@ -72,6 +67,7 @@ return {
     "%.unwrap_cache$",
 
     -- Misc
+    "%.aar$",
     "%.tmp$",
     "~$",
 }
