@@ -71,10 +71,6 @@ require("lazy").setup({
         }
     },
     {
-        "chaoren/vim-wordmotion",
-        event = "VeryLazy"
-    },
-    {
         'stevearc/aerial.nvim',
         -- Optional dependencies
         dependencies = {
