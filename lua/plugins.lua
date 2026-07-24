@@ -40,10 +40,6 @@ require("lazy").setup({
         event = "VeryLazy"
     },
     {
-        "nvim-tree/nvim-web-devicons",
-        lazy = true,
-    },
-    {
         "nvim-tree/nvim-tree.lua",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
@@ -63,8 +59,7 @@ require("lazy").setup({
         "ibhagwan/fzf-lua",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
-            { "<C-p>", "<cmd>FzfLua files<cr>", desc = "FZF files" },
-            { "<C-t>", "<cmd>FzfLua tags<cr>", desc = "FZF tags" },
+            { "<C-p>", "<cmd>FzfLua global<cr>", desc = "FZF global" },
         },
         opts = {
             file_ignore_patterns = require("file_ignore_patterns")
