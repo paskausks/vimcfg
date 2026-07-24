@@ -40,14 +40,6 @@ require("lazy").setup({
         event = "VeryLazy"
     },
     {
-        "nvim-tree/nvim-tree.lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        keys = {
-            { "<leader>ff", "<cmd>NvimTreeFindFile<cr>", desc = "Open NvimTree" },
-        },
-        opts = {} -- explicitly call setup()
-    },
-    {
         "jremmen/vim-ripgrep",
         cmd = "Rg", -- load on command
     },

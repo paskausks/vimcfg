@@ -1,10 +1,12 @@
 local utils = require("utils")
 local home = vim.env.HOME
 
--- for nvim-tree
--- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- netrw
+vim.g.netrw_liststyle    = 3    -- tree view
+vim.g.netrw_winsize      = 33   -- % window width
+vim.g.netrw_browse_split = 4    -- open in previous window (not the netrw window)
+vim.g.netrw_altv        = 1     -- vertical split goes right
+
 vim.opt.termguicolors = true
 
 -- Tab settings, 4 spaces by default
