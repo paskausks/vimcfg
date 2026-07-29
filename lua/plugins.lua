@@ -59,13 +59,16 @@ require("lazy").setup({
     },
     {
         'stevearc/aerial.nvim',
-        -- Optional dependencies
+        event = "VeryLazy",
         dependencies = {
             "nvim-tree/nvim-web-devicons"
         },
+        keys = {
+            { "<leader>a", "<cmd>AerialToggle!<CR>", desc = "Toggle Aerial" },
+        },
         config = function()
             require("aerial").setup({
-              open_automatic = true,
+              open_automatic = false,
               ignore = {
                 filetypes = {
                     "markdown",
