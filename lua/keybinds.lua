@@ -11,19 +11,8 @@ vim.keymap.set("n", "<C-h>", buf_prev, { silent = true })
 vim.keymap.set("n", "<C-Left>", buf_prev, { silent = true })
 vim.keymap.set("n", "<C-x>", ":bd<cr>", { silent = true })
 
--- remove trailing spaces in the current buffer
-vim.keymap.set("n", "<Leader>t", ":%s/\\s\\+$//<Cr>")
-
--- Run code inline
-vim.keymap.set("n", "<Leader>ts", ":w !ts-node<cr>")
-vim.keymap.set("n", "<Leader>js", ":w !node<cr>")
-
 -- format json (jq '.' on unix-like)
 vim.keymap.set("n", "<Leader>jq", ":%!jq .<cr>")
-
--- Search word under cursor with ripgrep
-vim.keymap.set("n", "<Leader>f", ":Rg<cr>")
-vim.keymap.set("n", "<space>rr", ":Rg ")
 
 -- Copy to clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
@@ -33,6 +22,10 @@ vim.keymap.set("n", "<leader>yy", "\"+yy")
 -- Paste from clipboard
 vim.keymap.set({ "n", "v" }, "<leader>p", "\"+p")
 vim.keymap.set({ "n", "v" }, "<leader>P", "\"+P")
+
+-- shooty binds
+vim.keymap.set("n", "<Leader>b", ":!./build.sh run<cr>")
+vim.keymap.set("n", "<Leader>f", ":!odinfmt -w %<cr><cr>") -- double <cr> to dismiss "Press ENTER or type command to continue"
 
 -- Navigate to buffers via <C-1>, <C-2>, etc.
 function switch_to_buffer_by_position(position)
