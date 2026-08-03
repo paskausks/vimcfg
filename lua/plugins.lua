@@ -52,6 +52,7 @@ require("lazy").setup({
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
             { "<C-p>", "<cmd>FzfLua global<cr>", desc = "FZF global" },
+            { "<C-t>", "<cmd>FzfLua buffers<cr>", desc = "FZF buffers" },
         },
         opts = {
             file_ignore_patterns = require("file_ignore_patterns")
@@ -97,19 +98,6 @@ require("lazy").setup({
                 show_close_icon = false,
             },
         }
-    },
-    {
-        "oskarnurm/koda.nvim", -- minimalistic theme
-        lazy = false,
-        priority = 1000, -- make sure to load this before all the other start plugins
-        config = function()
-            vim.cmd("colorscheme koda-moss")
-            vim.opt.background = "dark"
-        end,
-    },
-    {
-        "aliqyan-21/darkvoid.nvim", -- Very minimalistic dark theme
-        lazy = true, -- just don't load for now
     },
 
     -- For LSP autocomplete
