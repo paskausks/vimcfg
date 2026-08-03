@@ -70,3 +70,7 @@ vim.opt.listchars:append {
     tab = "  ",
     trail = "·",
 }
+
+-- Space as leader key
+vim.g.mapleader = " "
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
