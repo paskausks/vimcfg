@@ -20,8 +20,8 @@ local function setup()
               end
             end)
 
-            vim.keymap.set('n', '<space>pr', gitsigns.preview_hunk)
-            vim.keymap.set('n', '<space>res', gitsigns.reset_hunk)
+            vim.keymap.set('n', '<space>rv', gitsigns.preview_hunk)
+            vim.keymap.set('n', '<space>rs', gitsigns.reset_hunk)
         end
     }
 end
