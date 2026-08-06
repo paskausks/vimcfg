@@ -18,6 +18,14 @@ require("lazy").setup({
         config = require("lsp_setup"),
     },
     {
+      'nvim-treesitter/nvim-treesitter',
+      lazy = false,
+      config = function()
+        require('nvim-treesitter').install { 'gdscript', 'odin' }
+      end,
+      build = ':TSUpdate'
+    },
+    {
         "tpope/vim-surround",
         event = "VeryLazy",
         config = function()
