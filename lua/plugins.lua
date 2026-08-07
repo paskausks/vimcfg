@@ -61,6 +61,7 @@ require("lazy").setup({
         keys = {
             { "<C-p>", "<cmd>FzfLua global<cr>", desc = "FZF global" },
             { "<C-t>", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "FZF LSP symbols" },
+            { "<C-g>", "<cmd>FzfLua tags<cr>", desc = "FZF tags" },
         },
         opts = {
             file_ignore_patterns = require("file_ignore_patterns")
