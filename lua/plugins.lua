@@ -60,7 +60,7 @@ require("lazy").setup({
         dependencies = { "nvim-tree/nvim-web-devicons" },
         keys = {
             { "<C-p>", "<cmd>FzfLua global<cr>", desc = "FZF global" },
-            { "<C-t>", "<cmd>FzfLua tags<cr>", desc = "FZF tags" },
+            { "<C-t>", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "FZF LSP symbols" },
         },
         opts = {
             file_ignore_patterns = require("file_ignore_patterns")
