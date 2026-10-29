@@ -23,10 +23,6 @@ vim.keymap.set("n", "<leader>yy", "\"+yy")
 vim.keymap.set({ "n", "v" }, "<leader>p", "\"+p")
 vim.keymap.set({ "n", "v" }, "<leader>P", "\"+P")
 
--- shooty binds
-vim.keymap.set("n", "<Leader>b", ":!./build.sh run<cr>")
-vim.keymap.set("n", "<Leader>f", ":!odinfmt -w %<cr><cr>") -- double <cr> to dismiss "Press ENTER or type command to continue"
-
 -- Navigate to buffers via <C-1>, <C-2>, etc.
 function switch_to_buffer_by_position(position)
   local buffers = vim.api.nvim_list_bufs()
@@ -41,11 +37,21 @@ function switch_to_buffer_by_position(position)
   end
 end
 
+-- We have harpoon at home.
 for i = 1, 9 do
   vim.keymap.set('n', '<C-' .. i .. '>', ':lua switch_to_buffer_by_position(' .. i .. ')<CR>', { noremap = true, silent = true })
 end
 vim.keymap.set('n', '<C-0>', ':lua switch_to_buffer_by_position(10)<CR>', { noremap = true, silent = true })
 
+-- fzf-lua
+vim.keymap.set("n", "<C-p>", "<cmd>FzfLua global<cr>", { desc = "FZF global" })
+vim.keymap.set("n", "<C-t>", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "FZF LSP symbols" })
+vim.keymap.set("n", "<C-g>", "<cmd>FzfLua tags<cr>", { desc = "FZF tags" })
+
+-- aerial.nvim
+vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" })
+
 -- Misc
--- exit insert mode in :terminal via double esc press.
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+vim.keymap.set("n", "<Leader>b", ":!./build.sh run<cr>")
+vim.keymap.set("n", "<Leader>f", ":!odinfmt -w %<cr><cr>") -- double <cr> to dismiss "Press ENTER or type command to continue"
