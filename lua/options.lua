@@ -46,6 +46,7 @@ vim.opt.splitright = true    -- Vertical split to right of current.
 vim.opt.hidden = true        -- Allow unsaved buffers
 vim.opt.scl = "yes"          -- Set signcolumn for LSP information
 vim.cmd.syntax("enable")
+vim.o.winborder = "rounded"  -- does what it says on the tin
 
 vim.opt.diffopt:append("vertical")       -- Diffs always vertical
 vim.opt.fileformats = { "unix", "dos" }  -- Windows bad.

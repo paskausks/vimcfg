@@ -1,46 +1,42 @@
+-- when in doubt - "help lsp"
+
 local function setup()
+    -- cmp/autocomplete setup
+    -- prevent the built-in vim.lsp.completion autotrigger from selecting the first item
+    vim.opt.completeopt = { "menuone", "noselect", "popup" } 
+    vim.opt.pumborder = "rounded"
+    vim.opt.complete:append('o')
+    vim.opt.autocomplete = true
+
     -- sign column (gutter) icons
     local round_ico = "󱓻"
-    local signs = { Error = round_ico, Warn = round_ico, Hint = round_ico, Info = round_ico }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+    local signs = {}
+    local numhl = {}
+    for _, name in ipairs({ "Error", "Warn", "Hint", "Info" }) do
+        local hl = "DiagnosticSign" .. name
+        signs[vim.diagnostic.severity[name:upper()]] = round_ico
+        numhl[vim.diagnostic.severity[name:upper()]] = hl
     end
+    vim.diagnostic.config({ signs = { text = signs, numhl = numhl } })
 
     -- Global mappings.
     -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-    vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
-    vim.keymap.set("n", "[g", function () vim.diagnostic.jump({ count=-1, float=true }) end)
-    vim.keymap.set("n", "]g", function () vim.diagnostic.jump({ count=1, float=true }) end)
-    vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+    -- the default shortcuts don't show the floating window, so we add an override
+    vim.keymap.set("n", "[d", function () vim.diagnostic.jump({ count=-1, float=true }) end)
+    vim.keymap.set("n", "]d", function () vim.diagnostic.jump({ count=1, float=true }) end)
 
     -- Use LspAttach autocommand to only map the following keys
     -- after the language server attaches to the current buffer
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
       callback = function(ev)
-        -- Enable completion triggered by <c-x><c-o>
+        -- Enable manual completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local opts = { buffer = ev.buf }
-        -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename)
-        vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-        vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-        vim.keymap.set("n", "<space>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-        -- vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts) -- use treesitter-refactor
-        vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
-        -- vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
         vim.keymap.set("n", "<space>f", function()
           vim.lsp.buf.format { async = true }
         end, opts)
@@ -54,21 +50,14 @@ local function setup()
     -- If you notice slowdowns, the most likely candidate is your autocompletion plugin, or the language server which
     -- is bottlenecking it.
 
-    -- Add additional capabilities supported by blink.cmp
-    local capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
-
     -- Enable some language servers with the additional completion capabilities offered by blink.cmp
-    local servers = { "ts_ls", "eslint", "rust_analyzer", "clangd", "dockerls", "ols"}
+    local servers = { "ts_ls", "eslint", "rust_analyzer", "clangd", "ols"}
     for _, lsp in ipairs(servers) do
-      vim.lsp.config[lsp] = {
-        -- on_attach = my_custom_on_attach,
-        capabilities = capabilities,
-      }
       vim.lsp.enable(lsp)
     end
 
     vim.lsp.config["gdscript"] = {
-        capabilities = capabilities,
+        --capabilities = capabilities,
         -- requires netcat
         -- for windows, get "ncat" (https://nmap.org/ncat/)
         -- and alias ncat to nc

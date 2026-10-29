@@ -108,12 +108,4 @@ require("lazy").setup({
             },
         }
     },
-
-    -- For LSP autocomplete
-    {
-        'saghen/blink.cmp',
-        version = "1.*",
-        opts = require("blinkcmp_opts"),
-        opts_extend = { "sources.default" }
-    },
 })
