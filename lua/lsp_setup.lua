@@ -2,7 +2,7 @@
 
 -- cmp/autocomplete setup
 -- prevent the built-in vim.lsp.completion autotrigger from selecting the first item
-vim.opt.completeopt = { "menuone", "noselect", "popup" } 
+vim.opt.completeopt = { "menuone", "noselect", "popup", "fuzzy" }
 vim.opt.pumborder = "rounded"
 vim.opt.complete:append('o')
 vim.opt.autocomplete = true
