@@ -24,6 +24,13 @@ vim.opt.statusline = "%{FugitiveStatusline()} " .. vim.opt.statusline:get()
 
 require("fzf-lua").setup({
     file_ignore_patterns = require("file_ignore_patterns"),
+    fzf_colors = {
+        -- inherit colors, but for selections take the colors from the autocomplete menu
+        true,
+        ['bg+'] = { 'bg', 'PmenuSel' },
+        ['fg+'] = { 'fg', 'PmenuSel' },
+        ['hl+'] = { 'fg', 'PmenuMatchSel' },
+    },
 })
 
 require("aerial").setup({
