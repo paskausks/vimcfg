@@ -7,3 +7,6 @@ require("keybinds")
 -- plugin configs
 require("lsp_setup")
 require("misc_setup")
+
+-- machine specific things
+require("local")

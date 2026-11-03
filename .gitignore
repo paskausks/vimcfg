@@ -12,3 +12,6 @@ init.vim
 
 # externally installed color themes
 colors/
+
+# machine local overrides
+lua/local.lua
